@@ -52,14 +52,45 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Step one instruction exactly", cmd_si},
-  { "info", "Generic command for showing things about the program being debugged", cmd_info}, 
-  { "x", "Scan memory", cmd_x},
+  { "si [N]", "Step one instruction exactly", cmd_si},
+  { "info SUBCMD", "Generic command for showing things about the program being debugged", cmd_info}, 
+  { "x N EXPR", "Scan memory", cmd_x},
   /* TODO: Add more commands */
 
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
+
+long change(int c)
+{
+  if (c >= 'A' && c <= 'Z')
+    return c + 'a' - 'A';
+  else
+    return c;
+}
+long htoi(char s[])
+{
+  int i;
+  long n = 0;
+  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+    {
+    i = 2;
+    }
+  else
+   i = 0;
+  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
+    {
+    if (change(s[i]) > '9')
+      {
+      n = 16 * n + (10 + change(s[i]) - 'a');
+      }
+    else
+      {
+      n = 16 * n + (change(s[i]) - '0');
+      }
+    }
+  return n;
+}
 
 static int cmd_help(char *args) {
   /* extract the first argument */
@@ -116,6 +147,26 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args) {
+  char *num = strtok(NULL, " ");
+		
+  if (num == NULL)
+    printf("Unknown command \n");
+  else {
+    char *arg = strtok(NULL, " ");
+    if (arg == NULL)
+      printf("Unknown command '%s'\n", arg);
+    else
+      {
+      int n = atoi(num);
+      if (arg[0] == '0' && arg[1] == 'x')
+	{
+	int *address = (int *) htoi(arg);
+	for (int i = 0; i < n; i++, address++)
+          printf("0x%p: %x\n", address, *address);
+	}
+      return 0;
+      }
+	}
   return 0;
 }
 void ui_mainloop(int is_batch_mode) {
