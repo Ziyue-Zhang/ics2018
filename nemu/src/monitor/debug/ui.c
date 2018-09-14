@@ -156,9 +156,9 @@ static int cmd_x(char *args) {
     else
       {
       int n = atoi(num);
-	  printf("%d\n",n);
       if (arg[0] == '0' && arg[1] == 'x')
 	{
+	printf("%d\n",n);	
 	int *address = (int *) htoi(arg);
 	for (int i = 0; i < n; i++, address++)
           printf("0x%p: %08x\n", address, *address);
