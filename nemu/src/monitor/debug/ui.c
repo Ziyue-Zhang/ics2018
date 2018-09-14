@@ -8,7 +8,36 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-
+long change(int c)
+{
+  if (c >= 'A' && c <= 'Z')
+    return c + 'a' - 'A';
+  else
+    return c;
+}
+long htoi(char s[])
+{
+  int i;
+  long n = 0;
+  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+    {
+    i = 2;
+    }
+  else
+   i = 0;
+  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
+    {
+    if (change(s[i]) > '9')
+      {
+      n = 16 * n + (10 + change(s[i]) - 'a');
+      }
+    else
+      {
+      n = 16 * n + (change(s[i]) - '0');
+      }
+    }
+  return n;
+}
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
   static char *line_read = NULL;
@@ -115,37 +144,6 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-long change(int c)
-{
-  if (c >= 'A' && c <= 'Z')
-    return c + 'a' - 'A';
-  else
-    return c;
-}
-long htoi(char s[])
-{
-  int i;
-  long n = 0;
-  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
-    {
-    i = 2;
-    }
-  else
-   i = 0;
-  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
-    {
-    if (change(s[i]) > '9')
-      {
-      n = 16 * n + (10 + change(s[i]) - 'a');
-      }
-    else
-      {
-      n = 16 * n + (change(s[i]) - '0');
-      }
-    }
-  return n;
-}
-
 static int cmd_x(char *args) {
   char *num = strtok(NULL, " ");
 		
@@ -169,6 +167,7 @@ static int cmd_x(char *args) {
 	}
   return 0;
 }
+
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
