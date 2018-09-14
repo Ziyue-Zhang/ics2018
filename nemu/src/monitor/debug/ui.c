@@ -8,17 +8,17 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-long change(int c)
+int change(int c)
 {
   if (c >= 'A' && c <= 'Z')
     return c + 'a' - 'A';
   else
     return c;
 }
-long htoi(char s[])
+int htoi(char s[])
 {
   int i;
-  long n = 0;
+  int n = 0;
   if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
     {
     i = 2;
@@ -158,11 +158,9 @@ static int cmd_x(char *args) {
       int n = atoi(num);
       if (arg[0] == '0' && arg[1] == 'x')
 	{
-	long temp = htoi(arg);
-	printf("%ld\n", temp);	
-	int *address = (int *) temp;
-	for (int i = 0; i < n; i++, address++)
-          printf("0x%p: %08x\n", address, *address);
+	int address = htoi(arg);
+	for (int i = 0; i < n; i++, address += 4)
+          printf("0x%08x: %08x\n", address, address);
 	}
       return 0;
       }
