@@ -36,7 +36,6 @@ long htoi(char s[])
       n = 16 * n + (change(s[i]) - '0');
       }
     }
-  printf("%ld\n",n);
   return n;
 }
 /* We use the `readline' library to provide more flexibility to read from stdin. */
@@ -160,8 +159,9 @@ static int cmd_x(char *args) {
       if (arg[0] == '0' && arg[1] == 'x')
 	{
 	int *address = (int *) htoi(arg);
+	printf("0x%p",address);
 	for (int i = 0; i < n; i++, address++)
-          printf("0x%p: %x\n", address, *address);
+          printf("0x%p: %08x\n", address, *address);
 	}
       return 0;
       }
