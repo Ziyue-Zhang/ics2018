@@ -101,13 +101,13 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
 
-  if (strcmp(arg, "r") == 1) {
+  if (arg[0] == 'r') {
      printf("$eax = %8x		$edx = %8x\n", cpu.eax,cpu.edx);
      printf("$ecx = %8x		$ebx = %8x\n", cpu.ecx,cpu.ebx);
      printf("$ebp = %8x		$esi = %8x\n", cpu.ebp,cpu.esi);
      printf("$edi = %8x		$esp = %8x\n", cpu.edi,cpu.esp);
     }
-  else if (strcmp(arg, "w") == 1) {
+  else if (arg[0] == 'w') {
 
     }
   else
