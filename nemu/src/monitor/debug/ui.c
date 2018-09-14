@@ -160,7 +160,7 @@ static int cmd_x(char *args) {
 	{
 	int address = htoi(arg);
 	for (int i = 0; i < n; i++, address += 4)
-          printf("0x%08x: %02x %02x %02x %02x\n", address,paddr_read(address, 8),paddr_read(address+1, 8),paddr_read(address+2, 8),paddr_read(address+3, 8));
+          printf("0x%08x: %02x %02x %02x %02x\n", address,paddr_read(address+3, 2),paddr_read(address+2, 2),paddr_read(address+1, 2),paddr_read(address, 2));
 	}
       return 0;
       }
