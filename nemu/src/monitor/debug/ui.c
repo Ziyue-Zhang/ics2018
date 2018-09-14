@@ -102,10 +102,10 @@ static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
 
   if (arg[0] == 'r') {
-     printf("$eax = 0x%8x		$edx = 0x%8x\n", cpu.eax,cpu.edx);
-     printf("$ecx = 0x%8x		$ebx = 0x%8x\n", cpu.ecx,cpu.ebx);
-     printf("$ebp = 0x%8x		$esi = 0x%8x\n", cpu.ebp,cpu.esi);
-     printf("$edi = 0x%8x		$esp = 0x%8x\n", cpu.edi,cpu.esp);
+     printf("$eax = 0x%x		$edx = 0x%x\n", cpu.eax,cpu.edx);
+     printf("$ecx = 0x%x		$ebx = 0x%x\n", cpu.ecx,cpu.ebx);
+     printf("$ebp = 0x%x		$esi = 0x%x\n", cpu.ebp,cpu.esi);
+     printf("$edi = 0x%x		$esp = 0x%x\n", cpu.edi,cpu.esp);
     }
   else if (arg[0] == 'w') {
 
