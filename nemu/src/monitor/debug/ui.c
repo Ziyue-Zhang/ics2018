@@ -25,7 +25,7 @@ long htoi(char s[])
     }
   else
    i = 0;
-  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
+  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); i++)
     {
     if (change(s[i]) > '9')
       {
@@ -36,6 +36,7 @@ long htoi(char s[])
       n = 16 * n + (change(s[i]) - '0');
       }
     }
+  printf("%ld\n",n);
   return n;
 }
 /* We use the `readline' library to provide more flexibility to read from stdin. */
