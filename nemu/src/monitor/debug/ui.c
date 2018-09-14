@@ -40,6 +40,10 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info(char *args);
+
+static int cmd_x(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -48,7 +52,9 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Step one instruction exactly", cmd_si}, 
+  { "si", "Step one instruction exactly", cmd_si},
+  { "info", "Generic command for showing things about the program being debugged", cmd_info}, 
+  { "x", "Scan memory", cmd_x},
   /* TODO: Add more commands */
 
 };
@@ -88,10 +94,30 @@ static int cmd_si(char *args) {
    int num = atoi(arg);
    cpu_exec(num);
    return 0;
-    }
+  }
   return 0;
 }
 
+static int cmd_info(char *args) {
+  char *arg = strtok(NULL, " ");
+
+  if (strcmp(arg, "r") == 1) {
+     printf("$eax = %8x		$edx = %8x\n", cpu.eax,cpu.edx);
+     printf("$ecx = %8x		$ebx = %8x\n", cpu.ecx,cpu.ebx);
+     printf("$ebp = %8x		$esi = %8x\n", cpu.ebp,cpu.esi);
+     printf("$edi = %8x		$esp = %8x\n", cpu.edi,cpu.esp);
+    }
+  else if (strcmp(arg, "w") == 1) {
+
+    }
+  else
+    printf("Unknown command '%s'\n", arg);
+  return 0;
+}
+
+static int cmd_x(char *args) {
+  return 0;
+}
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
