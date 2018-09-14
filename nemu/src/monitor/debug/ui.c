@@ -8,12 +8,12 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
-int change(int c)
+int change(int k)
 {
-  if (c >= 'A' && c <= 'Z')
-    return c + 'a' - 'A';
+  if (k >= 'A' && k <= 'Z')
+    return k + 'a' - 'A';
   else
-    return c;
+    return k;
 }
 int htoi(char s[])
 {
