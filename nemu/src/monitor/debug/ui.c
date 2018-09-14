@@ -61,37 +61,6 @@ static struct {
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
 
-long change(int c)
-{
-  if (c >= 'A' && c <= 'Z')
-    return c + 'a' - 'A';
-  else
-    return c;
-}
-long htoi(char s[])
-{
-  int i;
-  long n = 0;
-  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
-    {
-    i = 2;
-    }
-  else
-   i = 0;
-  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
-    {
-    if (change(s[i]) > '9')
-      {
-      n = 16 * n + (10 + change(s[i]) - 'a');
-      }
-    else
-      {
-      n = 16 * n + (change(s[i]) - '0');
-      }
-    }
-  return n;
-}
-
 static int cmd_help(char *args) {
   /* extract the first argument */
   char *arg = strtok(NULL, " ");
@@ -144,6 +113,37 @@ static int cmd_info(char *args) {
   else
     printf("Unknown command '%s'\n", arg);
   return 0;
+}
+
+long change(int c)
+{
+  if (c >= 'A' && c <= 'Z')
+    return c + 'a' - 'A';
+  else
+    return c;
+}
+long htoi(char s[])
+{
+  int i;
+  long n = 0;
+  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+    {
+    i = 2;
+    }
+  else
+   i = 0;
+  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); ++i)
+    {
+    if (change(s[i]) > '9')
+      {
+      n = 16 * n + (10 + change(s[i]) - 'a');
+      }
+    else
+      {
+      n = 16 * n + (change(s[i]) - '0');
+      }
+    }
+  return n;
 }
 
 static int cmd_x(char *args) {
