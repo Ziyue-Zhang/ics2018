@@ -135,6 +135,7 @@ static int cmd_info(char *args) {
      printf("$ecx = 0x%08x\t$ebx = 0x%08x\n", cpu.ecx,cpu.ebx);
      printf("$ebp = 0x%08x\t$esi = 0x%08x\n", cpu.ebp,cpu.esi);
      printf("$edi = 0x%08x\t$esp = 0x%08x\n", cpu.edi,cpu.esp);
+	 printf("$eip = 0x%08x\n", cpu.eip);
     }
   else if (arg[0] == 'w') {
 
