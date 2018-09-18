@@ -73,6 +73,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -84,6 +86,7 @@ static struct {
   { "si", "Step instructions exactly", cmd_si},
   { "info", "Generic command for showing things about the program being debugged", cmd_info}, 
   { "x", "Scan memory", cmd_x},
+  { "p", "Print value of expression EXP", cmd_p},
   /* TODO: Add more commands */
 
 };
@@ -145,28 +148,40 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-static int cmd_x(char *args) {
-  char *num = strtok(NULL, " ");
-		
-  if (num == NULL)
+static int cmd_x(char *args)
+{
+    char *num = strtok(NULL, " ");
+	if (num == NULL)
     printf("Unknown command \n");
-  else {
-    char *arg = strtok(NULL, " ");
-    if (arg == NULL)
-      printf("Unknown command '%s'\n", arg);
-    else
-      {
-      int n = atoi(num);
-      if (arg[0] == '0' && arg[1] == 'x')
+	else 
 	{
-	int address = htoi(arg);
-	for (int i = 0; i < n; i++, address += 4)
-          printf("0x%08x: %02x %02x %02x %02x\n", address,paddr_read(address, 1),paddr_read(address+1, 1),paddr_read(address+2, 1),paddr_read(address+3, 1));
+		char *arg = strtok(NULL, " ");
+		if (arg == NULL)
+			printf("Unknown command '%s'\n", arg);
+		else
+		{
+			int n = atoi(num);
+			if (arg[0] == '0' && arg[1] == 'x')
+			{
+				int address = htoi(arg);
+				for (int i = 0; i < n; i++, address += 4)
+				printf("0x%08x: %02x %02x %02x %02x\n", address,paddr_read(address, 1),paddr_read(address+1, 1),paddr_read(address+2, 1),paddr_read(address+3, 1));
+			}
+			return 0;
+		}
 	}
-      return 0;
-      }
-	}
-  return 0;
+	return 0;
+}
+
+static int cmd_p(char *args)
+{
+	bool flag = true;
+	uint32_t  result = expr(args, &flag);
+	if(!flag)
+		assert(0);
+	else 
+		printf("%d\n", result);
+	return 0;
 }
 
 void ui_mainloop(int is_batch_mode) {

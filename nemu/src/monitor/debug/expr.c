@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, NUM, MINUS, POINTER
+  TK_NOTYPE = 256, TK_EQ, NUM, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -26,6 +26,15 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
+  {"\\$eax",EAX},		//EAX
+  {"\\$ecx",ECX},		//ECX
+  {"\\$edx",EDX},		//EDX
+  {"\\$ebx",EBX},		//EBX
+  {"\\$esp",ESP},		//ESP
+  {"\\$ebp",EBP},		//EBP
+  {"\\$esi",ESI},		//ESI
+  {"\\$edi",EDI},		//EDI
+  {"\\$eip",EIP},		//EIP
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
   {"\\(", '('},			// left bracket
@@ -60,7 +69,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[33];
 } Token;
 
 Token tokens[32];
@@ -88,8 +97,23 @@ static bool make_token(char *e) {
 			  * to record the token in the array `tokens'. For certain types
 			  * of tokens, some extra actions should be performed.
  			  */
-
+			 int add;
 			 switch (rules[i].token_type) {
+				 case EAX:
+			     case ECX:
+				 case EDX:
+				 case EBX:
+				 case ESP:
+				 case EBP:
+				 case ESI:
+				 case EDI:
+				 case EIP:
+					add = rules[i].token_type - 300;
+					uint32_t* address = (uint32_t*) &cpu;
+					snprintf(tokens[nr_token].str,32, "%d", *(address + add));
+					tokens[nr_token].type = NUM;
+					nr_token++;
+				 break;	
 			     case'+':
 			     case'-':
 					set_tokens;
@@ -103,10 +127,11 @@ static bool make_token(char *e) {
 					set_tokens;
 					break;
 				 case NUM:
-					if(substr_len > 31)
+					if(substr_len > 32)
 						assert(0);
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len);
 					set_tokens;
+					tokens[nr_token].str[32]='\0'; 
 					break;
 				 default: panic("wrong");
  			 }
