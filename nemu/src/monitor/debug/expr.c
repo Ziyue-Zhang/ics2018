@@ -9,7 +9,7 @@
 	    nr_token++;
 
 enum {
-  TK_NOTYPE = 256, TK_EQ, NUM
+  TK_NOTYPE = 256, TK_EQ, NUM, MINUS, POINTER
 
   /* TODO: Add more token types */
 
@@ -131,4 +131,25 @@ uint32_t expr(char *e, bool *success) {
   TODO();
 
   return 0;
+}
+
+
+
+bool check_parentheses(char *e, int p, int q)
+{
+	int bracket = 0;
+	for(int i = p; i < q; i++)
+	{
+		if(bracket < 0)
+			return false;
+		if(tokens[i].type == '(')
+			bracket++;
+		else if(tokens[i].type==')')
+			bracket--;
+		if(bracket == 0 && i != q)
+			return false;
+	}
+	if(bracket != 0)
+		return false;
+	return true;
 }
