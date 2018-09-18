@@ -5,9 +5,11 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <stdlib.h>
 #define set_tokens tokens[nr_token].type=rules[i].token_type;\
 	    nr_token++;
-
+uint32_t eval(int p, int q);
+bool check_parentheses(int p, int q);
 enum {
   TK_NOTYPE = 256, TK_EQ, NUM, MINUS, POINTER
 
@@ -47,9 +49,9 @@ void init_regex() {
   char error_msg[128];
   int ret;
 
-  for (i = 0; i < NR_REGEX; i ++) {
+   for (i = 0; i < NR_REGEX; i ++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
-    if (ret != 0) {
+     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
     }
@@ -85,7 +87,7 @@ static bool make_token(char *e) {
 			 /* TODO: Now a new token is recognized with rules[i]. Add codes
 			  * to record the token in the array `tokens'. For certain types
 			  * of tokens, some extra actions should be performed.
-			  */
+ 			  */
 
 			 switch (rules[i].token_type) {
 			     case'+':
@@ -107,16 +109,16 @@ static bool make_token(char *e) {
 					set_tokens;
 					break;
 				 default: panic("wrong");
-			 }
+ 			 }
 
 			break;
-		 }
-	 }		
+ 		 }
+ 	 }		
 	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false; 	 
-	}
-}
+ 	}
+} 
 
   return true;
 }
@@ -125,31 +127,102 @@ uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-  }
+  } 
+	for(int i = 0;i != nr_token; i++)
+	{
+		if (tokens[i].type == '*' && (i == 0 || tokens[i-1].type != NUM))
+			tokens[i].type = POINTER;
+		else if (tokens[i].type == '-' && ( i==0 || tokens[i-1].type != NUM))
+			tokens[i].type = MINUS;
+	}
+	int bracket = 0;
+	for(int i = 0; i != nr_token; i++)
+	{
+		if (bracket < 0)
+		{
+			*success = false;
+			return 0;
+		}
+		if (tokens[i].type == '(')
+			bracket++;
+		else if (tokens[i].type == ')')
+			bracket--;
+ 	}
+	if (bracket != 0)
+ 	{
+		*success = false;
+		return 0;
+	}
+	/* TODO: Insert codes to evaluate the expression. */
+  
 
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+	*success = true;
+	return eval(0, nr_token);
 }
 
-
-
-bool check_parentheses(char *e, int p, int q)
+uint32_t eval(int p, int q)
 {
+	if (p > q)
+		assert(0);
+	else if (p == q)
+	{
+		if(tokens[p].type != NUM)
+			assert(0);
+		else
+			return atoi(tokens[p].str);
+ 	}
+	else if (check_parentheses(p, q))
+		return eval(p + 1, q - 1);
+	else
+	{
+		int temp = p + 1;
+		int op;
+		if (tokens[p].type == '(')
+		{
+			while (!check_parentheses(p,temp) && temp < q)
+				temp++;
+			if (temp == q)
+				assert(0);
+			else
+				op = tokens[temp + 1].type;
+		}
+		else
+		{
+			while(tokens[temp].type == NUM && temp < q)
+				temp++;
+			if (temp == q)
+				assert(0);
+			else
+				op = tokens[temp].type;
+ 		}
+		uint32_t val1 = eval(p, op - 1);
+	    uint32_t val2 = eval(op + 1, q);
+	    switch (op)
+		{
+		    case '+': return val1 + val2;
+			case '-': return val1 - val2;
+		    case '*': return val1 * val2;
+		    case '/': return val1 / val2;
+		    default: assert(0);
+		}
+	}
+}
+
+bool check_parentheses(int p, int q)
+{ 
 	int bracket = 0;
 	for(int i = p; i < q; i++)
-	{
-		if(bracket < 0)
+	{ 
+		if (bracket < 0)
 			return false;
-		if(tokens[i].type == '(')
+		if (tokens[i].type == '(')
 			bracket++;
-		else if(tokens[i].type==')')
+		else if (tokens[i].type==')')
 			bracket--;
-		if(bracket == 0 && i != q)
+		if (bracket == 0 && i != q)
 			return false;
-	}
-	if(bracket != 0)
+ 	}
+	if (bracket != 0)
 		return false;
 	return true;
 }
