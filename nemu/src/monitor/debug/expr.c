@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256, TK_EQ, NUM
 
   /* TODO: Add more token types */
 
@@ -23,8 +23,14 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"[0-9]+",NUM},	// number
+  {"\\(", '('},		// left bracket
+  {"\\)", ')'},		// right bracket
+  {"\\*", '*'},		// multiply
+  {"\\/", '/'},		// divide
+  {"\\+", '+'},		// plus
+  {"\\-", '-'},         // minus
+  {"==", TK_EQ} 	// equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -64,34 +70,33 @@ static bool make_token(char *e) {
   nr_token = 0;
 
   while (e[position] != '\0') {
-    /* Try all rules one by one. */
-    for (i = 0; i < NR_REGEX; i ++) {
-      if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-        char *substr_start = e + position;
-        int substr_len = pmatch.rm_eo;
+	 /* Try all rules one by one. */
+	 for (i = 0; i < NR_REGEX; i ++) {
+		 if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
+			 char *substr_start = e + position;
+			 int substr_len = pmatch.rm_eo;
+		     
+			 Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+				 i, rules[i].regex, position, substr_len, substr_len, substr_start);
+			 position += substr_len;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
-        position += substr_len;
+			 /* TODO: Now a new token is recognized with rules[i]. Add codes
+			  * to record the token in the array `tokens'. For certain types
+			  * of tokens, some extra actions should be performed.
+			  */
 
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
+			 switch (rules[i].token_type) {
+			  default: TODO();
+			 }
 
-        switch (rules[i].token_type) {
-          default: TODO();
-        }
-
-        break;
-      }
-    }
-
-    if (i == NR_REGEX) {
-      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
-      return false;
-    }
-  }
+			break;
+		 }
+	 }		
+	 if (i == NR_REGEX) {
+		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+		 return false; 	 
+	}
+}
 
   return true;
 }
