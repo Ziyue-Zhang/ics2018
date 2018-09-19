@@ -214,33 +214,18 @@ uint32_t eval(int p, int q)
 		{
 			bool flag = false;
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == '/')
+				if (tokens[i].type == '/' || tokens[i].type == '*')
 				{
 					flag = true;
 					temp = i;
-					break;
  				}
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == '*')
+				if (tokens[i].type == '-' || tokens[i].type == '+')
  				{
 					flag = true;
 					temp = i;
 					break;
 				}  
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == '-')
- 				{
-					flag = true;
-					temp = i;
-					break;
-				}  
-			for (int i = p + 1; i < q && tokens[i].type != '(' ; i++)
-				if (tokens[i].type == '+')
-				{
-					flag = true;
-					temp = i;
-					break;
- 				} 
 			if(flag)
 				op = tokens[temp].type;
 			else
