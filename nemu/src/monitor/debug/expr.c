@@ -206,8 +206,8 @@ uint32_t eval(int p, int q)
 		{
 			for(; tokens[temp].type != ')';  temp++);
 			temp++;
-			printf("%d\n",temp);
 			op = tokens[temp].type;
+			printf("%d\n",op);
  		}
 		else
 		{
