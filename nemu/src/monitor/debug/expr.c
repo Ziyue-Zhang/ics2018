@@ -204,12 +204,8 @@ uint32_t eval(int p, int q)
 		int op = 0;
 		if (tokens[p].type == '(')
 		{
-			while (tokens[temp].type != ')' && temp < q)
-				temp++;
-			if (temp == q)
-				assert(0);
-			else
-				op = tokens[temp + 1].type;
+			for(; tokens[temp].type != ')';  temp++);
+			op = tokens[temp + 1].type;
  		}
 		else
 		{
