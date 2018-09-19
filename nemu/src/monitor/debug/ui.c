@@ -180,7 +180,7 @@ static int cmd_p(char *args)
 	if(!flag)
 		assert(0);
 	else 
-		printf("%d\t0x%08x\n", result,result);
+		printf("%d  0x%08x\n", result,result);
 	return 0;
 }
 
