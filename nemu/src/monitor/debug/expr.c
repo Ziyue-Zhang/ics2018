@@ -187,7 +187,7 @@ uint32_t expr(char *e, bool *success) {
 
 uint32_t eval(int p, int q)
 {
-	printf("hshhs\n");
+	printf("%d\t%d\n",p,q);
 	if (p > q)
 		assert(0);
 	else if (p == q)
@@ -201,12 +201,11 @@ uint32_t eval(int p, int q)
 		{
 			while (tokens[temp].type != ')' && temp < q)
 				temp++;
-			printf("%d\t%d\n",temp,q);
 			if (temp == q)
 				assert(0);
 			else
 				op = tokens[temp + 1].type;
-		}
+ 		}
 		else
 		{
 			bool flag = false;
@@ -216,17 +215,17 @@ uint32_t eval(int p, int q)
 					flag = true;
 					temp = i;
 					break;
-				}
+ 				}
 			for (int i = p + 1; i < q; i++)
 				if (tokens[i].type == '*')
-				{
+ 				{
 					flag = true;
 					temp = i;
 					break;
 				} 
 			for (int i = p + 1; i < q; i++)
 				if (tokens[i].type == '-')
-				{
+ 				{
 					flag = true;
 					temp = i;
 					break;
@@ -237,23 +236,23 @@ uint32_t eval(int p, int q)
 					flag = true;
 					temp = i;
 					break;
-				} 
+ 				} 
 			if(flag)
 				op = tokens[temp].type;
 			else
 				assert(0);
- 		}
+  		}
 		uint32_t val1 = eval(p, temp-1);
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
-		{ 
+ 		{ 
 		    case '+': return val1 + val2;
 			case '-': return val1 - val2;
 		    case '*': return val1 * val2;
 		    case '/': return val1 / val2;
 		    default: assert(0);
 		}
-	}
+ 	}
 }
 
 bool check_parentheses(int p, int q)
@@ -269,7 +268,7 @@ bool check_parentheses(int p, int q)
 			bracket--;
 		if (bracket == 0 && i != q)
 			return false;
- 	}
+  	}
 	if (bracket != 0)
 		return false;
 	return true;
