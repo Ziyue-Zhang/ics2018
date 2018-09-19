@@ -222,21 +222,21 @@ uint32_t eval(int p, int q)
 					break;
 				}
 			for (int i = q + 1; i < p; i++)
-				if (tokens[temp].type == '*')
+				if (tokens[i].type == '*')
 				{
 					flag = true;
 					temp = i;
 					break;
 				} 
 			for (int i = q + 1; i < p; i++)
-				if (tokens[temp].type == '-')
+				if (tokens[i].type == '-')
 				{
 					flag = true;
 					temp = i;
 					break;
 				} 
 			for (int i = q + 1; i < p; i++)
-				if (tokens[temp].type == '+')
+				if (tokens[i].type == '+')
 				{
 					flag = true;
 					temp = i;
