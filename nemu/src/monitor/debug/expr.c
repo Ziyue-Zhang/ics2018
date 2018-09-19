@@ -205,7 +205,7 @@ uint32_t eval(int p, int q)
 		int op = 0;
 		if (tokens[p].type == '(')
 		{
-			while (!check_parentheses(p,temp) && temp < q)
+			while (tokens[temp].type != ')' && temp < q)
 				temp++;
 			if (temp == q)
 				assert(0);
