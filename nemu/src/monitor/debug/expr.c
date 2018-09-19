@@ -207,6 +207,7 @@ uint32_t eval(int p, int q)
 		{
 			while (tokens[temp].type != ')' && temp < q)
 				temp++;
+			printf("%d\t%d\n",temp,q);
 			if (temp == q)
 				assert(0);
 			else
