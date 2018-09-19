@@ -116,8 +116,6 @@ static bool make_token(char *e) {
 					tokens[nr_token].type = NUM;
 					nr_token++;
 				    break;
-				 case MINUS:
-					break;
 			     case'+':
 			     case'-':
 					set_tokens;
