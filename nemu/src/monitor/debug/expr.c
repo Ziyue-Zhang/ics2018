@@ -187,6 +187,7 @@ uint32_t expr(char *e, bool *success) {
 
 uint32_t eval(int p, int q)
 {
+	printf("%d\t%d\n",p,q);
 	if (p > q)
 		assert(0);
 	else if (p == q)
@@ -207,7 +208,7 @@ uint32_t eval(int p, int q)
 			for(; tokens[temp].type != ')';  temp++);
 			temp++;
 			op = tokens[temp].type;
-			printf("%d\n",op);
+		//	printf("%d\n",op);
  		}
 		else
 		{
