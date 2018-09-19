@@ -213,28 +213,28 @@ uint32_t eval(int p, int q)
 		else
 		{
 			bool flag = false;
-			for (int i = p + 1; i < q; i++)
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '/')
 				{
 					flag = true;
 					temp = i;
 					break;
  				}
-			for (int i = p + 1; i < q; i++)
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '*')
  				{
 					flag = true;
 					temp = i;
 					break;
-				} 
-			for (int i = p + 1; i < q; i++)
+				}  
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '-')
  				{
 					flag = true;
 					temp = i;
 					break;
-				} 
-			for (int i = p + 1; i < q; i++)
+				}  
+			for (int i = p + 1; i < q && tokens[i].type != '(' ; i++)
 				if (tokens[i].type == '+')
 				{
 					flag = true;
