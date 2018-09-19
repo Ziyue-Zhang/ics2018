@@ -182,7 +182,7 @@ uint32_t expr(char *e, bool *success) {
   
 
 	*success = true;
-	return eval(0, nr_token-1);
+	return eval(0, nr_token - 1);
 }
 
 uint32_t eval(int p, int q)
@@ -201,7 +201,7 @@ uint32_t eval(int p, int q)
 	else
 	{
 		int temp = p + 1;
-		int op;
+		int op = 0;
 		if (tokens[p].type == '(')
 		{
 			while (!check_parentheses(p,temp) && temp < q)
@@ -213,17 +213,44 @@ uint32_t eval(int p, int q)
 		}
 		else
 		{
-			while(tokens[temp].type == NUM && temp < q)
-				temp++;
-			if (temp == q)
-				assert(0);
-			else
+			bool flag = false;
+			for (int i = q + 1; i < p; i++)
+				if (tokens[i].type == '/')
+				{
+					flag = true;
+					temp = i;
+					break;
+				}
+			for (int i = q + 1; i < p; i++)
+				if (tokens[temp].type == '*')
+				{
+					flag = true;
+					temp = i;
+					break;
+				} 
+			for (int i = q + 1; i < p; i++)
+				if (tokens[temp].type == '-')
+				{
+					flag = true;
+					temp = i;
+					break;
+				} 
+			for (int i = q + 1; i < p; i++)
+				if (tokens[temp].type == '+')
+				{
+					flag = true;
+					temp = i;
+					break;
+				} 
+			if(flag)
 				op = tokens[temp].type;
+			else
+				assert(0);
  		}
 		uint32_t val1 = eval(p, temp-1);
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
-		{
+		{ 
 		    case '+': return val1 + val2;
 			case '-': return val1 - val2;
 		    case '*': return val1 * val2;
@@ -236,8 +263,8 @@ uint32_t eval(int p, int q)
 bool check_parentheses(int p, int q)
 { 
 	int bracket = 0;
-	for(int i = p; i < q; i++)
-	{ 
+	for(int i = p; i <=  q; i++)
+	{  
 		if (bracket < 0)
 			return false;
 		if (tokens[i].type == '(')
