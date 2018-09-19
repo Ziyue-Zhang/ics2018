@@ -220,8 +220,8 @@ uint32_t eval(int p, int q)
 			else
 				op = tokens[temp].type;
  		}
-		uint32_t val1 = eval(p, op - 1);
-	    uint32_t val2 = eval(op + 1, q);
+		uint32_t val1 = eval(p, temp);
+	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
 		{
 		    case '+': return val1 + val2;
