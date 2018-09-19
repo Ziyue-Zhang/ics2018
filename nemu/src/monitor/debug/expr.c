@@ -37,7 +37,7 @@ static struct rule {
   {"\\$eip",EIP},		// EIP
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
-  {"-",MINUS},			// MINUS
+  // {"-",MINUS},			// MINUS
   {"\\(", '('},			// left bracket
   {"\\)", ')'},			// right bracket
   {"\\*", '*'},			// multiply
