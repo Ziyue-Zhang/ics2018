@@ -37,7 +37,7 @@ static struct rule {
   {"\\$eip",EIP},		// EIP
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
-    {"\\(", '('},			// left bracket
+  {"\\(", '('},			// left bracket
   {"\\)", ')'},			// right bracket
   {"\\*", '*'},			// multiply
   {"/", '/'},			// divide
@@ -63,8 +63,8 @@ void init_regex() {
      if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
-    }
-  }
+     }
+   }
 }
 
 typedef struct token {
@@ -96,9 +96,9 @@ static bool make_token(char *e) {
 			 /* TODO: Now a new token is recognized with rules[i]. Add codes
 			  * to record the token in the array `tokens'. For certain types
 			  * of tokens, some extra actions should be performed.
-  			  */
+  	 		  */
 			 int add;
-			 switch (rules[i].token_type) {
+	 		 switch (rules[i].token_type) {
 				 case EAX:
 			     case ECX:
 				 case EDX:
@@ -137,13 +137,13 @@ static bool make_token(char *e) {
   			 }
 
 			break;
-  		 }
-  	 }		
+  	 	 }
+  	  }		
  	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false; 	 
- 	}
-}  
+ 	} 
+}   
 
   return true;
 }
@@ -187,7 +187,6 @@ uint32_t expr(char *e, bool *success) {
 
 uint32_t eval(int p, int q)
 {
-	printf("%d\t%d\n",p,q);
 	if (p > q)
 		assert(0);
 	else if (p == q)
