@@ -188,6 +188,7 @@ uint32_t expr(char *e, bool *success) {
 
 uint32_t eval(int p, int q)
 {
+	printf("hshhs\n");
 	if (p > q)
 		assert(0);
 	else if (p == q)
