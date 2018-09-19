@@ -205,6 +205,7 @@ uint32_t eval(int p, int q)
 		if (tokens[p].type == '(')
 		{
 			for(; tokens[temp].type != ')';  temp++);
+			printf("%d\t%d\n", p, temp);
 			op = tokens[temp + 1].type;
  		}
 		else
