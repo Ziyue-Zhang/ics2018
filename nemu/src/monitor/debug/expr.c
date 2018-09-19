@@ -224,7 +224,6 @@ uint32_t eval(int p, int q)
  				{
 					flag = true;
 					temp = i;
-					break;
 				}  
 			if(flag)
 				op = tokens[temp].type;
