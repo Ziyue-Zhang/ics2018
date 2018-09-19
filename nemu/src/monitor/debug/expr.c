@@ -38,7 +38,6 @@ static struct rule {
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
   {"-",MINUS},			// MINUS
-  {"*",POINTER},		// POINTER
   {"\\(", '('},			// left bracket
   {"\\)", ')'},			// right bracket
   {"\\*", '*'},			// multiply
