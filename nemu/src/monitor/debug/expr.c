@@ -26,23 +26,25 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"\\$eax",EAX},		//EAX
-  {"\\$ecx",ECX},		//ECX
-  {"\\$edx",EDX},		//EDX
-  {"\\$ebx",EBX},		//EBX
-  {"\\$esp",ESP},		//ESP
-  {"\\$ebp",EBP},		//EBP
-  {"\\$esi",ESI},		//ESI
-  {"\\$edi",EDI},		//EDI
-  {"\\$eip",EIP},		//EIP
+  {"\\$eax",EAX},		// EAX
+  {"\\$ecx",ECX},		// ECX
+  {"\\$edx",EDX},		// EDX
+  {"\\$ebx",EBX},		// EBX
+  {"\\$esp",ESP},		// ESP
+  {"\\$ebp",EBP},		// EBP
+  {"\\$esi",ESI},		// ESI
+  {"\\$edi",EDI},		// EDI
+  {"\\$eip",EIP},		// EIP
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
+  {"-",MINUS},			// MINUS
+  {"*",POINTER},		// POINTER
   {"\\(", '('},			// left bracket
   {"\\)", ')'},			// right bracket
   {"\\*", '*'},			// multiply
   {"/", '/'},			// divide
   {"\\+", '+'},			// plus
-  {"-", '-'},			// minus
+  {"\\-", '-'},			// minus
   {"==", TK_EQ}			// equal
 };
 
@@ -113,7 +115,9 @@ static bool make_token(char *e) {
 					snprintf(tokens[nr_token].str,32, "%d", *(address + add));
 					tokens[nr_token].type = NUM;
 					nr_token++;
-				 break;	
+				    break;
+				 case MINUS:
+					break;
 			     case'+':
 			     case'-':
 					set_tokens;
