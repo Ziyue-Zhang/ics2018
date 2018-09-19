@@ -37,8 +37,7 @@ static struct rule {
   {"\\$eip",EIP},		// EIP
   {" +", TK_NOTYPE},    // spaces
   {"[0-9]+",NUM},		// number
-  // {"-",MINUS},			// MINUS
-  {"\\(", '('},			// left bracket
+    {"\\(", '('},			// left bracket
   {"\\)", ')'},			// right bracket
   {"\\*", '*'},			// multiply
   {"/", '/'},			// divide
@@ -97,7 +96,7 @@ static bool make_token(char *e) {
 			 /* TODO: Now a new token is recognized with rules[i]. Add codes
 			  * to record the token in the array `tokens'. For certain types
 			  * of tokens, some extra actions should be performed.
- 			  */
+  			  */
 			 int add;
 			 switch (rules[i].token_type) {
 				 case EAX:
@@ -135,16 +134,16 @@ static bool make_token(char *e) {
 					tokens[nr_token].str[32]='\0'; 
 					break;
 				 default: panic("wrong");
- 			 }
+  			 }
 
 			break;
- 		 }
- 	 }		
-	 if (i == NR_REGEX) {
+  		 }
+  	 }		
+ 	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false; 	 
  	}
-} 
+}  
 
   return true;
 }
@@ -153,14 +152,14 @@ uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-  } 
+   } 
 	for(int i = 0;i != nr_token; i++)
 	{
 		if (tokens[i].type == '*' && (i == 0 || tokens[i-1].type != NUM))
 			tokens[i].type = POINTER;
 		else if (tokens[i].type == '-' && ( i==0 || tokens[i-1].type != NUM))
 			tokens[i].type = MINUS;
-	}
+ 	}
 	int bracket = 0;
 	for(int i = 0; i != nr_token; i++)
 	{
@@ -183,7 +182,7 @@ uint32_t expr(char *e, bool *success) {
   
 
 	*success = true;
-	return eval(0, nr_token - 1);
+	return eval(0, nr_token - 2);
 }
 
 uint32_t eval(int p, int q)
