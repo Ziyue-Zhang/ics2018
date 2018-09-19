@@ -182,7 +182,7 @@ uint32_t expr(char *e, bool *success) {
   
 
 	*success = true;
-	return eval(0, nr_token - 2);
+	return eval(0, nr_token - 1);
 }
 
 uint32_t eval(int p, int q)
