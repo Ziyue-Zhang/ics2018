@@ -182,7 +182,7 @@ uint32_t expr(char *e, bool *success) {
   
 
 	*success = true;
-	return eval(0, nr_token);
+	return eval(0, nr_token-1);
 }
 
 uint32_t eval(int p, int q)
@@ -195,7 +195,7 @@ uint32_t eval(int p, int q)
 			assert(0);
 		else
 			return atoi(tokens[p].str);
- 	}
+ 	} 
 	else if (check_parentheses(p, q))
 		return eval(p + 1, q - 1);
 	else
@@ -220,7 +220,7 @@ uint32_t eval(int p, int q)
 			else
 				op = tokens[temp].type;
  		}
-		uint32_t val1 = eval(p, temp);
+		uint32_t val1 = eval(p, temp-1);
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
 		{
