@@ -152,17 +152,17 @@ uint32_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-   } 
-	for(int i = 0;i != nr_token; i++)
+   }  
+	/*for(int i = 0;i != nr_token; i++)
 	{
 		if (tokens[i].type == '*' && (i == 0 || tokens[i-1].type != NUM))
 			tokens[i].type = POINTER;
 		else if (tokens[i].type == '-' && ( i==0 || tokens[i-1].type != NUM))
 			tokens[i].type = MINUS;
- 	}
+ 	} */
 	int bracket = 0;
 	for(int i = 0; i != nr_token; i++)
-	{
+	{ 
 		if (bracket < 0)
 		{
 			*success = false;
