@@ -191,13 +191,7 @@ uint32_t eval(int p, int q)
 	if (p > q)
 		assert(0);
 	else if (p == q)
-	{
-		if(tokens[p].type != NUM)
-			assert(0);
-		else
-			return atoi(tokens[p].str);
- 	} 
-	else if (check_parentheses(p, q))
+
 		return eval(p + 1, q - 1);
 	else
 	{
