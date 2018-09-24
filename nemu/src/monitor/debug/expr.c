@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, DEREF, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -184,32 +184,32 @@ static bool make_token(char *e) {
 }
 
 uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+  if ( !make_token(e)) {
     *success = false;
     return 0;
    }  
-	/*for(int i = 0;i != nr_token; i++)
+	for(int i = 0;i != nr_token; i++)
 	{
-		if (tokens[i].type == '*' && (i == 0 || tokens[i-1].type != NUM))
-			tokens[i].type = POINTER;
-		else if (tokens[i].type == '-' && ( i==0 || tokens[i-1].type != NUM))
+		if (tokens[i].type == '*' && (i == 0 || (tokens[i-1].type != NUM && tokens[i-1].type != ')')))
+			tokens[i].type = DEREF;
+		else if (tokens[i].type == '-' && ( i==0 || (tokens[i-1].type != NUM && tokens[i-1].type != ')')))
 			tokens[i].type = MINUS;
- 	} */
+ 	} 
 	int bracket = 0;
 	for(int i = 0; i != nr_token; i++)
-	{ 
+	{  
 		if (bracket < 0)
 		{
 			*success = false;
 			return 0;
-		} 
+	 	} 
 		if (tokens[i].type == '(')
 			bracket++;
 		else if (tokens[i].type == ')')
 			bracket--;
  	}
 	if (bracket != 0)
- 	{
+ 	{ 
 		*success = false;
 		return 0;
 	} 
@@ -231,26 +231,35 @@ uint32_t eval(int p, int q)
 			return atoi(tokens[p].str);
 		else
 			assert(0);
-	} 
+	}  
 	else if (check_parentheses(p, q))
 		return eval(p + 1, q - 1);
+	else if (tokens[p].type == DEREF && p + 1 == q)
+	{
+		uint32_t address = atoi(tokens[p+1].str);
+		return vaddr_read(address, 4);
+	}
+	else if (tokens[p].type == MINUS && p + 1 == q)
+	{
+		return -atoi(tokens[p+1].str);
+	}
 	else
 	{ 
 		int temp = p + 1;
 		int op = 0;
 		if (tokens[p].type == '(')
-	 	{
+	  	{
 			for(; tokens[temp].type != ')';  temp++);
 			temp++;
 			op = tokens[temp].type;
 		//	printf("%d\n",op);
  		}
 		else
-	 	{
+	  	{
 			bool flag = false;
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '/' || tokens[i].type == '*')
-				{
+	 			{
 					flag = true;
 					temp = i;
  	 			}
@@ -259,25 +268,25 @@ uint32_t eval(int p, int q)
  				{
 					flag = true;
 					temp = i;
-	 			}
+	  			}
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == TK_G || tokens[i].type == TK_L || tokens[i].type == TK_GEQ || tokens[i].type == TK_LEQ)
 				{
 					flag = true;
 					temp = i;
-				}
+	 			}
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
 				{
 					flag = true;
 					temp = i;
-				}
+	 			}
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == TK_OR || tokens[i].type == TK_AND)
 				{
 					flag = true;
 					temp = i;
-				}
+	 			}
 			if(flag)
 				op = tokens[temp].type;
 			else
@@ -300,8 +309,8 @@ uint32_t eval(int p, int q)
 		    case '*': return val1 * val2;
 		    case '/': return val1 / val2;
 		    default: assert(0);
-	  	}
- 	}
+	   	}
+ 	} 
 }
 
 bool check_parentheses(int p, int q)
@@ -317,7 +326,7 @@ bool check_parentheses(int p, int q)
 			bracket--;
 		if (bracket == 0 && i != q)
 			return false;
-  	}
+  	} 
 	if (bracket != 0)
 		return false;
 	return true;
