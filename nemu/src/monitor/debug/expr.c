@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, HEX, NUM, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_LS, TK_GT, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -24,7 +24,7 @@ static struct rule {
 
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
-   */
+    */
 
   {"\\$eax",EAX},			// EAX
   {"\\$ecx",ECX},			// ECX
@@ -35,6 +35,14 @@ static struct rule {
   {"\\$esi",ESI},			// ESI
   {"\\$edi",EDI},			// EDI
   {"\\$eip",EIP},			// EIP
+  {"<=",TK_LEQ},
+  {"!=",TK_NEQ},
+  {">=",TK_GEQ},
+  {"<",TK_LS},
+  {">",TK_GT},
+  {"!",TK_NOT},				//not
+  {"&&",TK_AND},				//and
+  {"\\|\\|",TK_OR},			//or
   {" +", TK_NOTYPE},		// spaces
   {"0x[A-Fa-f0-9]+",HEX},	// HEX
   {"[0-9]+",NUM},           // number
@@ -64,8 +72,8 @@ void init_regex() {
      if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
-     }
-   }
+      }
+   } 
 }
 
 typedef struct token {
@@ -97,7 +105,7 @@ static bool make_token(char *e) {
 			 /* TODO: Now a new token is recognized with rules[i]. Add codes
 			  * to record the token in the array `tokens'. For certain types
 			  * of tokens, some extra actions should be performed.
-  	 		  */
+  	  		  */
 			 int add;
 	 		 switch (rules[i].token_type) {
 				 case EAX:
@@ -115,6 +123,22 @@ static bool make_token(char *e) {
 					tokens[nr_token].type = NUM;
 					nr_token++;
 				    break;
+				 case TK_OR:
+					set_tokens;
+					break;
+				 case TK_AND:
+					set_tokens;
+					break;
+				 case TK_EQ:
+				 case TK_NEQ:
+					set_tokens;
+					break;
+				 case TK_GEQ:
+				 case TK_LEQ:
+				 case TK_LS:
+				 case TK_GT:
+					set_tokens;
+					break;
 			     case'+':
 			     case'-':
 					set_tokens;
@@ -134,7 +158,7 @@ static bool make_token(char *e) {
 					set_tokens;
 					tokens[nr_token].str[32]='\0'; 
 					break;
-				case HEX:
+				 case HEX:
 					if(substr_len > 8)
 						assert(0);
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len); 
@@ -145,16 +169,16 @@ static bool make_token(char *e) {
 					tokens[nr_token].type=NUM; nr_token++;
 					break;
 				 default: panic("wrong");
-  			 }
+  	 		 }
 
 			break;
-  	 	 }
-  	  }		
+  	  	 }
+  	   }		
  	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false; 	 
- 	} 
-}   
+ 	}  
+}    
 
   return true;
 }
@@ -178,7 +202,7 @@ uint32_t expr(char *e, bool *success) {
 		{
 			*success = false;
 			return 0;
-		}
+		} 
 		if (tokens[i].type == '(')
 			bracket++;
 		else if (tokens[i].type == ')')
@@ -188,7 +212,7 @@ uint32_t expr(char *e, bool *success) {
  	{
 		*success = false;
 		return 0;
-	}
+	} 
 	/* TODO: Insert codes to evaluate the expression. */
   
 
@@ -207,35 +231,35 @@ uint32_t eval(int p, int q)
 			return atoi(tokens[p].str);
 		else
 			assert(0);
-	}
+	} 
 	else if (check_parentheses(p, q))
 		return eval(p + 1, q - 1);
 	else
-	{
+	{ 
 		int temp = p + 1;
 		int op = 0;
 		if (tokens[p].type == '(')
-		{
+	 	{
 			for(; tokens[temp].type != ')';  temp++);
 			temp++;
 			op = tokens[temp].type;
 		//	printf("%d\n",op);
  		}
 		else
-		{
+	 	{
 			bool flag = false;
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '/' || tokens[i].type == '*')
 				{
 					flag = true;
 					temp = i;
- 				}
+ 	 			}
 			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == '-' || tokens[i].type == '+')
  				{
 					flag = true;
 					temp = i;
-				}  
+	 			}  
 			if(flag)
 				op = tokens[temp].type;
 			else
@@ -250,7 +274,7 @@ uint32_t eval(int p, int q)
 		    case '*': return val1 * val2;
 		    case '/': return val1 / val2;
 		    default: assert(0);
-		}
+	  	}
  	}
 }
 
