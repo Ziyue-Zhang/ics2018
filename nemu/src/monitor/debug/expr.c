@@ -240,10 +240,7 @@ uint32_t eval(int p, int q)
 		return vaddr_read(address, 4);
 	}
 	else if (tokens[p].type == MINUS && p + 1 == q)
-	{
-		printf("xjm\n");
 		return -1*atoi(tokens[p+1].str);
-	}
 	else
 	{ 
 		int temp = p + 1;
