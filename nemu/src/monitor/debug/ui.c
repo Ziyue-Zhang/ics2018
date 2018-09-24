@@ -17,26 +17,20 @@ int change(int k)
 }
 int htoi(char s[])
 {
-  int i;
-  int n = 0;
-  if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+	int i;
+	int n = 0;
+	if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+		i = 2;
+	else
+	i = 0;
+	for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); i++)
     {
-    i = 2;
+		if (change(s[i]) > '9')
+			n = 16 * n + (10 + change(s[i]) - 'a');
+		else
+			n = 16 * n + (change(s[i]) - '0');
     }
-  else
-   i = 0;
-  for (; (s[i] >= '0' && s[i] <= '9') || (s[i] >= 'a' && s[i] <= 'f') || (s[i] >= 'A' && s[i] <= 'F'); i++)
-    {
-    if (change(s[i]) > '9')
-      {
-      n = 16 * n + (10 + change(s[i]) - 'a');
-      }
-    else
-      {
-      n = 16 * n + (change(s[i]) - '0');
-      }
-    }
-  return n;
+	return n;
 }
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -133,19 +127,19 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
   char *arg = strtok(NULL, " ");
 
-  if (arg[0] == 'r') {
-     printf("$eax = 0x%08x\t$edx = 0x%08x\n", cpu.eax,cpu.edx);
-     printf("$ecx = 0x%08x\t$ebx = 0x%08x\n", cpu.ecx,cpu.ebx);
-     printf("$ebp = 0x%08x\t$esi = 0x%08x\n", cpu.ebp,cpu.esi);
-     printf("$edi = 0x%08x\t$esp = 0x%08x\n", cpu.edi,cpu.esp);
-	 printf("$eip = 0x%08x\n", cpu.eip);
+	if (arg[0] == 'r') {
+		printf("$eax = 0x%08x\t$edx = 0x%08x\n", cpu.eax,cpu.edx);
+		printf("$ecx = 0x%08x\t$ebx = 0x%08x\n", cpu.ecx,cpu.ebx);
+		printf("$ebp = 0x%08x\t$esi = 0x%08x\n", cpu.ebp,cpu.esi);
+		printf("$edi = 0x%08x\t$esp = 0x%08x\n", cpu.edi,cpu.esp);
+		printf("$eip = 0x%08x\n", cpu.eip);
     }
-  else if (arg[0] == 'w') {
-
+	else if (arg[0] == 'w') {
+	
     }
-  else
+	else
     printf("Unknown command '%s'\n", arg);
-  return 0;
+	return 0;
 }
 
 static int cmd_x(char *args)

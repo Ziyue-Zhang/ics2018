@@ -17,7 +17,48 @@ void init_wp_pool() {
   head = NULL;
   free_ = wp_pool;
 }
-
+WP* gainhead()
+{
+	return head;
+}
+WP* new_wp()
+{
+	if(!free_)
+		assert(0);
+	else
+	{
+		WP *p = free_;
+		free_ = free_->next;
+		p->next = head;
+		head = p;
+		return p;
+	}
+}
+void free_wp(WP *wp)
+{
+	if(!wp)
+		assert(0);
+	else
+	{
+		if(wp == head)
+		{
+			head = head->next;
+			wp->next = free_;
+			free_ = wp;
+		}
+		else
+		{
+			WP *temp = head;
+			while(temp->next != NULL && temp->next != wp)
+				temp = temp->next;
+			if(!temp->next)
+				assert(0);
+			temp->next = wp->next;
+			wp->next = free_;
+			free_ = wp;
+		}
+	}
+}
 /* TODO: Implement the functionality of watchpoint */
 
 
