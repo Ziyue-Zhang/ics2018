@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, NUM, HEX, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, HEX, NUM, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -36,8 +36,8 @@ static struct rule {
   {"\\$edi",EDI},			// EDI
   {"\\$eip",EIP},			// EIP
   {" +", TK_NOTYPE},		// spaces
-  {"[0-9]+",NUM},			// number
-  {"0x[A-Fa-f0-9]+",HEX},	//HEX
+  {"0x[A-Fa-f0-9]+",HEX},	// HEX
+  {"[0-9]+",NUM},           // number
   {"\\(", '('},				// left bracket
   {"\\)", ')'},				// right bracket
   {"\\*", '*'},				// multiply
