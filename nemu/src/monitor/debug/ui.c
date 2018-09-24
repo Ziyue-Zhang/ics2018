@@ -7,6 +7,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+extern WP* gethead();
+extern WP* new_wp();
+extern void free_wp();
 void cpu_exec(uint64_t);
 int change(int k)
 {
@@ -69,6 +72,8 @@ static int cmd_x(char *args);
 
 static int cmd_p(char *args);
 
+static int cmd_w(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -81,6 +86,7 @@ static struct {
   { "info", "Generic command for showing things about the program being debugged", cmd_info}, 
   { "x", "Scan memory", cmd_x},
   { "p", "Print value of expression EXP", cmd_p},
+  { "w", "Set a watchpoint for an expression", cmd_w},
   /* TODO: Add more commands */
 
 };
@@ -92,15 +98,15 @@ static int cmd_help(char *args) {
   char *arg = strtok(NULL, " ");
   int i;
 
-  if (arg == NULL) {
+  if  (arg == NULL) {
     /* no argument given */
     for (i = 0; i < NR_CMD; i ++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-    }
+    } 
   }
-  else {
-    for (i = 0; i < NR_CMD; i ++) {
-      if (strcmp(arg, cmd_table[i].name) == 0) {
+  else  {
+    for  (i = 0; i < NR_CMD; i ++) {
+      if  (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
       }
@@ -113,10 +119,10 @@ static int cmd_help(char *args) {
 static int cmd_si(char *args) {
   char *arg = strtok(NULL, " ");
   
-  if (arg == NULL) {
+  if (arg  == NULL) {
     cpu_exec(1);
   }
-  else {
+  else { 
    int num = atoi(arg);
    cpu_exec(num);
    return 0;
@@ -135,7 +141,12 @@ static int cmd_info(char *args) {
 		printf("$eip = 0x%08x\n", cpu.eip);
     }
 	else if (arg[0] == 'w') {
-	
+		WP *head = gethead();
+		while(head!=NULL)
+		{
+			printf("Watchpoint %d:%s\n",head->NO,head->expr);
+			head=head->next;
+		}
     }
 	else
     printf("Unknown command '%s'\n", arg);
@@ -178,6 +189,25 @@ static int cmd_p(char *args)
 	return 0;
 }
 
+static int cmd_w(char *args)
+{
+	bool flag = true;
+	uint32_t result = expr(args, &flag);
+	if(!flag)
+		assert(0);
+	WP *p= new_wp();
+	if(!strncmp(args,"$eip==",6))
+		p->flag = true;
+	else 
+		p->flag = false;
+	strncpy(p->expr,args,1000);
+	p->result = result;
+	if(p->flag)
+		printf("Breakpoint set at 0x%x\n", (uint32_t)strtol(args+6,NULL,16));
+	else 
+		printf("Watchpoint %d set at %s\n", p->NO, args);
+	return 0;
+}
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);

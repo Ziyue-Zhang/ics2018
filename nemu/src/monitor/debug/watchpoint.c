@@ -17,7 +17,7 @@ void init_wp_pool() {
   head = NULL;
   free_ = wp_pool;
 }
-WP* gainhead()
+WP* gethead()
 {
 	return head;
 }
