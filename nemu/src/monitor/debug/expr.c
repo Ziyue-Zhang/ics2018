@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, NUM, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, NUM, HEX, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -26,24 +26,25 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {"\\$eax",EAX},		// EAX
-  {"\\$ecx",ECX},		// ECX
-  {"\\$edx",EDX},		// EDX
-  {"\\$ebx",EBX},		// EBX
-  {"\\$esp",ESP},		// ESP
-  {"\\$ebp",EBP},		// EBP
-  {"\\$esi",ESI},		// ESI
-  {"\\$edi",EDI},		// EDI
-  {"\\$eip",EIP},		// EIP
-  {" +", TK_NOTYPE},    // spaces
-  {"[0-9]+",NUM},		// number
-  {"\\(", '('},			// left bracket
-  {"\\)", ')'},			// right bracket
-  {"\\*", '*'},			// multiply
-  {"/", '/'},			// divide
-  {"\\+", '+'},			// plus
-  {"\\-", '-'},			// minus
-  {"==", TK_EQ}			// equal
+  {"\\$eax",EAX},			// EAX
+  {"\\$ecx",ECX},			// ECX
+  {"\\$edx",EDX},			// EDX
+  {"\\$ebx",EBX},			// EBX
+  {"\\$esp",ESP},			// ESP
+  {"\\$ebp",EBP},			// EBP
+  {"\\$esi",ESI},			// ESI
+  {"\\$edi",EDI},			// EDI
+  {"\\$eip",EIP},			// EIP
+  {" +", TK_NOTYPE},		// spaces
+  {"[0-9]+",NUM},			// number
+  {"0x[A-Fa-f0-9]+",HEX},	//HEX
+  {"\\(", '('},				// left bracket
+  {"\\)", ')'},				// right bracket
+  {"\\*", '*'},				// multiply
+  {"/", '/'},				// divide
+  {"\\+", '+'},				// plus
+  {"\\-", '-'},				// minus
+  {"==", TK_EQ}				// equal
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -132,6 +133,16 @@ static bool make_token(char *e) {
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len);
 					set_tokens;
 					tokens[nr_token].str[32]='\0'; 
+					break;
+				case HEX:
+					if(substr_len > 8)
+						assert(0);
+					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len); 
+					tokens[nr_token].str[8]='\0'; 
+					int temp;
+					sscanf(tokens[nr_token].str,"0x%x",&temp);
+					snprintf(tokens[nr_token].str,32,"%d",temp);	
+					tokens[nr_token].type=NUM; nr_token++;
 					break;
 				 default: panic("wrong");
   			 }
