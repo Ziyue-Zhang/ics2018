@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, DEREF, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, HEX, NUM, NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, DEREF, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -40,7 +40,7 @@ static struct rule {
   {">=",TK_GEQ},
   {"<",TK_L},
   {">",TK_G},
-  {"!",TK_NOT},				//not
+  {"!",NOT},				//not
   {"&&",TK_AND},				//and
   {"\\|\\|",TK_OR},			//or
   {" +", TK_NOTYPE},		// spaces
@@ -151,6 +151,9 @@ static bool make_token(char *e) {
 				 case')':
 					set_tokens;
 					break;
+				 case NOT:
+					set_tokens;
+					break;
 				 case NUM:
 					if(substr_len > 32)
 						assert(0);
@@ -169,16 +172,16 @@ static bool make_token(char *e) {
 					tokens[nr_token].type=NUM; nr_token++;
 					break;
 				 default: panic("wrong");
-  	 		 }
+  	 	 	 }
 
 			break;
-  	  	 }
-  	   }		
+  	  	  }
+  	    }		
  	 if (i == NR_REGEX) {
 		 printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 		 return false; 	 
- 	}  
-}    
+ 	}   
+}     
 
   return true;
 }
@@ -238,11 +241,15 @@ uint32_t eval(int p, int q)
 	{
 		uint32_t address = atoi(tokens[p+1].str);
 		return vaddr_read(address, 4);
-	}
+	} 
 	else if (tokens[p].type == MINUS && p + 1 == q)
 		return -1*atoi(tokens[p+1].str);
+	else if (tokens[p].type == NOT && p + 1 == q)
+	{
+		return !atoi(tokens[p+1].str);
+	}
 	else
-	{ 
+	{  
 		int temp = p + 1;
 		int op = 0;
 		if (tokens[p].type == '(')
