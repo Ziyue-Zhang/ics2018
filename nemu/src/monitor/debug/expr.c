@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_LS, TK_GT, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  TK_NOTYPE = 256, TK_EQ, HEX, NUM, TK_NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, POINTER, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -38,8 +38,8 @@ static struct rule {
   {"<=",TK_LEQ},
   {"!=",TK_NEQ},
   {">=",TK_GEQ},
-  {"<",TK_LS},
-  {">",TK_GT},
+  {"<",TK_L},
+  {">",TK_G},
   {"!",TK_NOT},				//not
   {"&&",TK_AND},				//and
   {"\\|\\|",TK_OR},			//or
@@ -135,8 +135,8 @@ static bool make_token(char *e) {
 					break;
 				 case TK_GEQ:
 				 case TK_LEQ:
-				 case TK_LS:
-				 case TK_GT:
+				 case TK_L:
+				 case TK_G:
 					set_tokens;
 					break;
 			     case'+':
@@ -259,7 +259,25 @@ uint32_t eval(int p, int q)
  				{
 					flag = true;
 					temp = i;
-	 			}  
+	 			}
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == TK_G || tokens[i].type == TK_L || tokens[i].type == TK_GEQ || tokens[i].type == TK_LEQ)
+				{
+					flag = true;
+					temp = i;
+				}
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
+				{
+					flag = true;
+					temp = i;
+				}
+			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == TK_OR || tokens[i].type == TK_AND)
+				{
+					flag = true;
+					temp = i;
+				}
 			if(flag)
 				op = tokens[temp].type;
 			else
@@ -269,7 +287,15 @@ uint32_t eval(int p, int q)
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
  		{ 
-		    case '+': return val1 + val2;
+			case TK_G: return val1 > val2;
+			case TK_L: return val1 < val2;
+			case TK_GEQ: return val1 >= val2;
+			case TK_LEQ: return val1 <= val2;
+			case TK_EQ: return val1 == val2;
+			case TK_NEQ: return val1 != val2;
+			case TK_OR: return val1 || val2;
+			case TK_AND: return val1 && val2;
+			case '+': return val1 + val2;
 			case '-': return val1 - val2;
 		    case '*': return val1 * val2;
 		    case '/': return val1 / val2;
