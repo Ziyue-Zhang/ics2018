@@ -102,11 +102,11 @@ static int cmd_help(char *args) {
     /* no argument given */
     for (i = 0; i < NR_CMD; i ++) {
       printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-    } 
-  }
+     } 
+   }
   else  {
     for  (i = 0; i < NR_CMD; i ++) {
-      if  (strcmp(arg, cmd_table[i].name) == 0) {
+       if  (strcmp(arg, cmd_table[i].name) == 0) {
         printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
         return 0;
       }
@@ -139,15 +139,16 @@ static int cmd_info(char *args) {
 		printf("$ebp = 0x%08x\t$esi = 0x%08x\n", cpu.ebp,cpu.esi);
 		printf("$edi = 0x%08x\t$esp = 0x%08x\n", cpu.edi,cpu.esp);
 		printf("$eip = 0x%08x\n", cpu.eip);
-    }
+    } 
 	else if (arg[0] == 'w') {
 		WP *head = gethead();
 		while(head!=NULL)
 		{
-			printf("Watchpoint %d:%s\n",head->NO,head->expr);
+			if(!head->flag)
+				printf("Watchpoint %d:%s\n",head->NO,head->expr);
 			head=head->next;
-		}
-    }
+	 	}
+    } 
 	else
     printf("Unknown command '%s'\n", arg);
 	return 0;
@@ -203,14 +204,14 @@ static int cmd_w(char *args)
 	strncpy(p->expr,args,1000);
 	p->result = result;
 	if(p->flag)
-		printf("Breakpoint set at 0x%x\n", (uint32_t)strtol(args+6,NULL,16));
+		printf("Breakpoint at 0x%x\n", (uint32_t) strtol(args+6,NULL,16));
 	else 
-		printf("Watchpoint %d set at %s\n", p->NO, args);
+		printf("Watchpoint %d:at %s\n", p->NO, args);
 	return 0;
 }
 void ui_mainloop(int is_batch_mode) {
-  if (is_batch_mode) {
-    cmd_c(NULL);
+	if (is_batch_mode) { 
+		cmd_c(NULL);
     return;
   }
 
@@ -228,7 +229,7 @@ void ui_mainloop(int is_batch_mode) {
     char *args = cmd + strlen(cmd) + 1;
     if (args >= str_end) {
       args = NULL;
-    }
+    } 
 
 #ifdef HAS_IOE
     extern void sdl_clear_event_queue(void);
@@ -244,5 +245,5 @@ void ui_mainloop(int is_batch_mode) {
     }
 
     if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
-  }
+  }  
 }
