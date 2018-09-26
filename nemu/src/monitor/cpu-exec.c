@@ -42,8 +42,10 @@ void cpu_exec(uint64_t n) {
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
 	WP *Head = gethead();
+	printf("uytsuytsd\n");
 	if (!Head)
 	{
+		printf("273456324\n");		
 		WP *p = Head;
 		bool have_stop = false;
 		while(p)
