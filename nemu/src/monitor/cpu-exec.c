@@ -1,6 +1,7 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
+#include "monitor/expr.h"
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -44,10 +45,10 @@ void cpu_exec(uint64_t n) {
 	if (!head)
 	{
 		WP *p = head;
-		while(p->next)
+		while(p)
 		{
 			bool flag = true;
-			uint32_t new_result = p->next->result;
+			uint32_t new_result = expr(p->expr,&flag);
 			if(!flag)
 				assert(0);
 			else
