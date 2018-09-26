@@ -44,6 +44,7 @@ void cpu_exec(uint64_t n) {
 	WP *head = gethead();
 	if (!head)
 	{
+			printf("ashdjahgsjdhgasd\n");
 		WP *p = head;
 		bool have_stop = false;
 		while(p)
@@ -65,7 +66,6 @@ void cpu_exec(uint64_t n) {
 		}
 		if (have_stop)
 		{
-			printf("ashdjahgsjdhgasd\n");
 			//nemu_state = NEMU_STOP;
 			//return;
 			break;
