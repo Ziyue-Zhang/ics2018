@@ -11,7 +11,7 @@
 uint32_t eval(int p, int q);
 bool check_parentheses(int p, int q);
 enum {
-  TK_NOTYPE = 256, TK_EQ, HEX, NUM, NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, DEREF, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
+  NOTYPE = 256, TK_EQ, HEX, NUM, NOT, TK_AND, TK_OR, TK_NEQ, TK_LEQ, TK_GEQ, TK_L, TK_G, MINUS, DEREF, EAX = 300, ECX, EDX, EBX, ESP, EBP, ESI, EDI, EIP
 
   /* TODO: Add more token types */
 
@@ -41,9 +41,9 @@ static struct rule {
   {"<",TK_L},
   {">",TK_G},
   {"!",NOT},				//not
-  {"&&",TK_AND},				//and
+  {"&&",TK_AND},			//and
   {"\\|\\|",TK_OR},			//or
-  {" +", TK_NOTYPE},		// spaces
+  {" +", NOTYPE},			// spaces
   {"0x[A-Fa-f0-9]+",HEX},	// HEX
   {"[0-9]+",NUM},           // number
   {"\\(", '('},				// left bracket
@@ -153,6 +153,8 @@ static bool make_token(char *e) {
 					break;
 				 case NOT:
 					set_tokens;
+					break;
+				 case NOTYPE:
 					break;
 				 case NUM:
 					if(substr_len > 32)
