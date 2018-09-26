@@ -56,7 +56,7 @@ void cpu_exec(uint64_t n) {
 			{
 				if(p->result != new_result)
 				{
-					printf("Watchpoint %d expr: %s\nold value: %d\nnew value: %d\n", p->NO, p->expr,p->result,new_result);
+					printf("Watchpoint %d expr: %s\n%s(old value): %d\n%s(new value): %d\n", p->NO, p->expr,p->expr,p->result,p->expr,new_result);
 					p->result = new_result;
 					have_stop = true;
 				}
