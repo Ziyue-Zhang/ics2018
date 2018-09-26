@@ -65,8 +65,9 @@ void cpu_exec(uint64_t n) {
 		}
 		if (have_stop)
 		{
-			nemu_state = NEMU_STOP;
-			return;
+			//nemu_state = NEMU_STOP;
+			//return;
+			break;
 		}
 	}
 #endif
