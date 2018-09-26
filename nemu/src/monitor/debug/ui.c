@@ -242,6 +242,8 @@ static int cmd_d(char *args)
 
 static int cmd_b(char *args)
 {
+	if(args[0] == '*')
+		args++;
 	char expr[1000]="$eip==\0";
 	strcat (expr,args);
 	cmd_w(args);
