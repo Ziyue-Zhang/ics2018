@@ -205,7 +205,6 @@ static int cmd_w(char *args)
 	WP *p= new_wp();
 	//WP *head=gethead();
 	//if(head)
-	//	printf("ajhjgj\n");
 	if(!strncmp(args,"$eip==",6))
 		p->flag = true;
 	else 
