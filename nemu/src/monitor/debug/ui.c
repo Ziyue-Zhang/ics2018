@@ -246,7 +246,7 @@ static int cmd_b(char *args)
 		args++;
 	char expr[1000]="$eip==\0";
 	strcat (expr,args);
-	cmd_w(args);
+	cmd_w(expr);
 	return 0;
 }
 
