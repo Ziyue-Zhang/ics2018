@@ -45,6 +45,7 @@ void cpu_exec(uint64_t n) {
 	if (!head)
 	{
 		WP *p = head;
+		bool have_stop = false;
 		while(p)
 		{
 			bool flag = true;
@@ -55,13 +56,17 @@ void cpu_exec(uint64_t n) {
 			{
 				if(p->result != new_result)
 				{
-					printf("Watchpoint %d expr:%s \nold:%d\nnew:%d\n", p->NO, p->expr,p->result,new_result);
+					printf("Watchpoint %d expr: %s\nold value: %d\nnew value: %d\n", p->NO, p->expr,p->result,new_result);
 					p->result = new_result;
-					nemu_state = NEMU_STOP;
-					return;
+					have_stop = true;
 				}
 			}
 			p = p->next;
+		}
+		if (have_stop)
+		{
+			nemu_state = NEMU_STOP;
+			return;
 		}
 	}
 #endif

@@ -74,6 +74,10 @@ static int cmd_p(char *args);
 
 static int cmd_w(char *args);
 
+static int cmd_d(char *args);
+
+static int cmd_b(char *args);
+
 static struct {
   char *name;
   char *description;
@@ -87,6 +91,8 @@ static struct {
   { "x", "Scan memory", cmd_x},
   { "p", "Print value of expression EXP", cmd_p},
   { "w", "Set a watchpoint for an expression", cmd_w},
+  { "d", "Delete a watchpoint", cmd_d},
+  { "b", "Set a breakpoint", cmd_b},
   /* TODO: Add more commands */
 
 };
@@ -209,6 +215,37 @@ static int cmd_w(char *args)
 		printf("Watchpoint %d:at %s\n", p->NO, args);
 	return 0;
 }
+
+static int cmd_d(char *args)
+{
+	int num = atoi(args);
+	WP *p = gethead();
+	bool flag= false;
+	while(p)
+	{
+		if(p->NO == num)
+		{
+			free_wp(p);
+			flag = true;
+			break;
+		}
+		p = p->next;
+	}
+	if(flag)
+		printf("Delete watchpoint %d successfully",num);
+	else
+		printf("Cannot find this watchpoint");
+	return 0;
+}
+
+static int cmd_b(char *args)
+{
+	char expr[1000]="$eip==\0";
+	strcat (expr,args);
+	cmd_w(args);
+	return 0;
+}
+
 void ui_mainloop(int is_batch_mode) {
 	if (is_batch_mode) { 
 		cmd_c(NULL);
