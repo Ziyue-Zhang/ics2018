@@ -251,8 +251,19 @@ static int cmd_b(char *args)
 }
 
 void ui_mainloop(int is_batch_mode) {
-	if (is_batch_mode) { 
-		cmd_c(NULL);
+	if (is_batch_mode) {
+	char *str = rl_gets();
+//    char *str_end = str + strlen(str); 
+    char *ans = strtok(str, " ");
+	int Ans=atoi(ans);
+	char *Expr = str + strlen(ans)+1;
+	bool successflag;
+	int Myans=expr(Expr,&successflag);
+	if(successflag&&Myans==Ans)
+		printf("True\n");
+	else
+		printf("False\n");
+		//cmd_c(NULL);
     return;
   }
 
