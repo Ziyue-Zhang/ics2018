@@ -251,8 +251,8 @@ static int cmd_b(char *args)
 }
 
 void ui_mainloop(int is_batch_mode) {
-	if (is_batch_mode) {
-	char *str = rl_gets();
+	if (is_batch_mode) {                //  search help from my classmate, this mode can test the right of calculation
+	/*char *str = rl_gets();
 //    char *str_end = str + strlen(str); 
     char *ans = strtok(str, " ");
 	int Ans=atoi(ans);
@@ -262,8 +262,8 @@ void ui_mainloop(int is_batch_mode) {
 	if(successflag&&Myans==Ans)
 		printf("True\n");
 	else
-		printf("False\n");
-		//cmd_c(NULL);
+		printf("False\n");*/
+	cmd_c(NULL);
     return;
   }
 
