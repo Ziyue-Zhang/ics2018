@@ -234,9 +234,9 @@ static int cmd_d(char *args)
 		p = p->next;
 	}
 	if(flag)
-		printf("Delete watchpoint %d successfully",num);
+		printf("Delete watchpoint %d successfully\n",num);
 	else
-		printf("Cannot find this watchpoint");
+		printf("Cannot find this watchpoint\n");
 	return 0;
 }
 
