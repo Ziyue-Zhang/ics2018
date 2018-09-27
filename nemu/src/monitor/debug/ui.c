@@ -148,7 +148,7 @@ static int cmd_info(char *args) {
     } 
 	else if (arg[0] == 'w') {
 		WP *head = gethead();
-		while(head!=NULL)
+		while(head)
 		{
 			if(!head->flag)
 				printf("Watchpoint %d:%s\n",head->NO,head->expr);
