@@ -57,7 +57,8 @@ run: $(BINARY)
 	$(NEMU_EXEC)
 
 count: $(BINARY)
-	$(find -name *.c -or -name *.h -or -name *.cpp | xargs cat | wc -l)
+	$(shell find -name *.c -or -name *.h -or -name *.cpp | xargs cat | wc -l)
+	$(NEMU_EXEC)
 
 gdb: $(BINARY)
 	$(call git_commit, "gdb")
