@@ -304,7 +304,7 @@ uint32_t eval(int p, int q)
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
  		{ 
-			case TK_G: printf("%d\t%d\n",val1,val2); return val1 > val2;
+			case TK_G:/* printf("%d\t%d\n",val1,val2);*/ return val1 > val2;
 			case TK_L: return val1 < val2;
 			case TK_GEQ: return val1 >= val2;
 			case TK_LEQ: return val1 <= val2;
