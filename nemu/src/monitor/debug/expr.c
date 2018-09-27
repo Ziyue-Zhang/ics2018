@@ -171,7 +171,8 @@ static bool make_token(char *e) {
 					int temp;
 					sscanf(tokens[nr_token].str,"0x%x",&temp);
 					snprintf(tokens[nr_token].str,32,"%d",temp);	
-					tokens[nr_token].type=NUM; nr_token++;
+					tokens[nr_token].type=NUM; 
+					nr_token++;
 					break;
 				 default: panic("wrong");
   	 	 	 }
@@ -303,7 +304,7 @@ uint32_t eval(int p, int q)
 	    uint32_t val2 = eval(temp + 1, q);
 	    switch (op)
  		{ 
-			case TK_G: return val1 > val2;
+			case TK_G: printf("%d\t%d\n",val1,val2); return val1 > val2;
 			case TK_L: return val1 < val2;
 			case TK_GEQ: return val1 >= val2;
 			case TK_LEQ: return val1 <= val2;
