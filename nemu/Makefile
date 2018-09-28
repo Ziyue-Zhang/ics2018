@@ -56,9 +56,6 @@ run: $(BINARY)
 	$(call git_commit, "run")
 	$(NEMU_EXEC)
 
-count: $(BINARY)
-	$(shell find -name *.c -or -name *.h -or -name *.cpp | xargs cat | wc -l)
-
 gdb: $(BINARY)
 	$(call git_commit, "gdb")
 	gdb -s $(BINARY) --args $(NEMU_EXEC)
@@ -67,3 +64,7 @@ clean:
 	-rm -rf $(BUILD_DIR)
 	$(MAKE) -C tools/gen-expr clean
 	$(MAKE) -C tools/qemu-diff clean
+
+count: 
+	find -name *.c -or -name *.h -or -name *.cpp | xargs cat | wc -l
+
