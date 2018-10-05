@@ -1,6 +1,6 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
-#include "control.c"
+
 typedef struct {
   DHelper decode;
   EHelper execute;
@@ -13,6 +13,7 @@ typedef struct {
 #define EX(ex)             EXW(ex, 0)
 #define EMPTY              EX(inv)
 
+extern void exec_call();
 static inline void set_width(int width) {
   if (width == 0) {
     width = decoding.is_operand_size_16 ? 2 : 4;
