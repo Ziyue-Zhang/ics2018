@@ -1,6 +1,6 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
-
+#include "control.c"
 typedef struct {
   DHelper decode;
   EHelper execute;
@@ -130,7 +130,7 @@ opcode_entry opcode_table [512] = {
   /* 0xdc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe4 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xe8 */	/*IDEX(I,call)*/EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0xe8 */	IDEX(J,call), EMPTY, EMPTY, EMPTY,
   /* 0xec */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf4 */	EMPTY, EMPTY, IDEXW(E, gp3, 1), IDEX(E, gp3),
