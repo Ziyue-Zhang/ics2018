@@ -34,11 +34,11 @@ typedef struct {
 	vaddr_t eip;
 	struct
 	{
-		uint32_t CF;
-		uint32_t ZF;
-		uint32_t SF;
-		uint32_t IF;
-		uint32_t OF;
+		uint32_t CF:1;	//1 bite
+		uint32_t ZF:1;
+		uint32_t SF:1;
+		uint32_t IF:1;
+		uint32_t OF:1;
 	}eflags;
 } CPU_state;
 
