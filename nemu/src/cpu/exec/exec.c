@@ -17,6 +17,7 @@ extern void exec_call();
 extern void exec_push();
 extern void exec_pop();
 extern void exec_sub();
+extern void exec_xor();
 static inline void set_width(int width) {
   if (width == 0) {
     width = decoding.is_operand_size_16 ? 2 : 4;
@@ -46,7 +47,7 @@ static make_EHelper(name) { \
 /* 0x80, 0x81, 0x83 */
 make_group(gp1,
     EMPTY, EMPTY, EMPTY, EMPTY,
-    EMPTY, EX(sub), EMPTY, EMPTY)
+    EMPTY, EX(sub), EX(xor), EMPTY)
 
   /* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
 make_group(gp2,
@@ -88,8 +89,8 @@ opcode_entry opcode_table [512] = {
   /* 0x24 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x28 */	IDEXW(G2E,sub,1), IDEX(G2E,sub), IDEXW(E2G,sub,1), IDEX(E2G,sub),
   /* 0x2c */	IDEXW(I2a,sub,1), IDEX(I2a,sub), EMPTY, EMPTY,
-  /* 0x30 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x34 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x30 */	IDEXW(G2E,xor,1), IDEX(G2E,xor), IDEXW(E2G,xor,1), IDEX(E2G,xor),
+  /* 0x34 */	IDEXW(I2a,xor,1), IDEX(I2a,xor), EMPTY, EMPTY,
   /* 0x38 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x3c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0x40 */	EMPTY, EMPTY, EMPTY, EMPTY,
