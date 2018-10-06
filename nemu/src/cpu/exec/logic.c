@@ -1,6 +1,6 @@
 #include "cpu/exec.h"
 #include "cpu/cc.h"
-extern const rtlreg_t tzero ;
+extern rtlreg_t tzero ;
 
 make_EHelper(test) {
   TODO();
