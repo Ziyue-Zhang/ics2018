@@ -13,20 +13,6 @@ typedef struct {
 #define EX(ex)             EXW(ex, 0)
 #define EMPTY              EX(inv)
 
-/*extern void exec_call();
-extern void exec_push();
-extern void exec_pop();
-extern void exec_sub();
-extern void exec_xor();
-extern void exec_ret();
-extern void exec_lea();
-extern void exec_and();
-extern void exec_nop();
-extern void exec_add();
-extern void exec_cmp();
-extern void exec_setcc();
-extern void exec_movzx();
-extern void exec_test();*/
 static inline void set_width(int width) {
   if (width == 0) {
     width = decoding.is_operand_size_16 ? 2 : 4;
