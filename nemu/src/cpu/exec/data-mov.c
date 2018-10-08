@@ -31,16 +31,17 @@ make_EHelper(popa) {
 }
 
 make_EHelper(leave) {
-  TODO();
-
+  //TODO();
+  rtl_mv(&cpu.esp, &cpu.ebp);
+  rtl_pop(&cpu.ebp);
   print_asm("leave");
 }
 
 make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
     TODO();
-  }
-  else {
+  } 
+  else { 
     TODO();
   }
 
@@ -50,7 +51,7 @@ make_EHelper(cltd) {
 make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     TODO();
-  }
+  } 
   else {
     TODO();
   }
