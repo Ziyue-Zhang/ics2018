@@ -1,6 +1,6 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
-extern void decode_mov_E2G_1();
+
 typedef struct {
   DHelper decode;
   EHelper execute;
@@ -44,15 +44,15 @@ make_group(gp1,
     EX(add), EX(or), EX(adc), EMPTY,
     EX(and), EX(sub), EX(xor), EX(cmp))
 
-  /* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
+/* 0xc0, 0xc1, 0xd0, 0xd1, 0xd2, 0xd3 */
 make_group(gp2,
     EMPTY, EMPTY, EMPTY, EMPTY,
-    EMPTY, EMPTY, EMPTY, EMPTY)
+    EX(shl), EX(shr), EMPTY, EX(sar))
 
   /* 0xf6, 0xf7 */
 make_group(gp3,
-    IDEX(test_I, test), EMPTY, EMPTY, EMPTY,
-    EMPTY, EMPTY, EMPTY, EMPTY)
+    IDEX(test_I, test), EMPTY, EX(not), EMPTY,
+    EMPTY, EX(imul1), EMPTY, EX(idiv))
 
   /* 0xfe */
 make_group(gp4,
@@ -62,7 +62,7 @@ make_group(gp4,
   /* 0xff */
 make_group(gp5,
     EX(inc), EX(dec), EMPTY, EMPTY,
-    EMPTY, EMPTY, EX(push), EMPTY)
+    EX(jmp_rm), EMPTY, EX(push), EMPTY)   //0xff /6 dec push
 
   /* 0x0f 0x01*/
 make_group(gp7,
@@ -110,12 +110,12 @@ opcode_entry opcode_table [512] = {
   /* 0x8c */	EMPTY, IDEX(lea_M2G, lea), EMPTY, EMPTY,
   /* 0x90 */	EX(nop), EMPTY, EMPTY, EMPTY,
   /* 0x94 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0x98 */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0x98 */	EMPTY, EX(cltd), EMPTY, EMPTY,
   /* 0x9c */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa0 */	IDEXW(O2a, mov, 1), IDEX(O2a, mov), IDEXW(a2O, mov, 1), IDEX(a2O, mov),
   /* 0xa4 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa8 */	IDEXW(I2a, test, 1), IDEX(I2a, test), EMPTY, EMPTY,
-  /* 0xac */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0xac */	EMPTY, EMPTY, EMPTY, IDEX(E2G, imul2),
   /* 0xb0 */	IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1),
   /* 0xb4 */	IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1), IDEXW(mov_I2r, mov, 1),
   /* 0xb8 */	IDEX(mov_I2r, mov), IDEX(mov_I2r, mov), IDEX(mov_I2r, mov), IDEX(mov_I2r, mov),
@@ -130,7 +130,7 @@ opcode_entry opcode_table [512] = {
   /* 0xdc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xe4 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xe8 */	IDEX(J,call), EMPTY, EMPTY, EMPTY,
+  /* 0xe8 */	IDEX(J, call), IDEX(J, jmp), EMPTY, IDEXW(J, jmp, 1),
   /* 0xec */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xf4 */	EMPTY, EMPTY, IDEXW(E, gp3, 1), IDEX(E, gp3),
@@ -182,7 +182,7 @@ opcode_entry opcode_table [512] = {
   /* 0xa0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa4 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xa8 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xac */	EMPTY, EMPTY, EMPTY, EMPTY,
+  /* 0xac */	EMPTY, EMPTY, EMPTY, IDEX(E2G, imul2),
   /* 0xb0 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xb4 */	EMPTY, EMPTY, IDEXW(mov_E2G, movzx, 1), IDEX(mov_E2G, movzx),
   /* 0xb8 */	EMPTY, EMPTY, EMPTY, EMPTY,

@@ -39,10 +39,22 @@ make_EHelper(leave) {
 
 make_EHelper(cltd) {
   if (decoding.is_operand_size_16) {
-    TODO();
+    //TODO();
+	if((int16_t) cpu.eax < 0) {
+		t0 = 0xffff;
+		rtl_sr(R_DX, &t0, 2);
+	}
+	else {
+		t0 = 0;
+		rtl_sr(R_DX, &t0, 2);
+	}
   } 
   else { 
-    TODO();
+    //TODO();
+	if(cpu.eax < 0)
+		interpret_rtl_li(&cpu.edx, 0xFFFFFFFF);
+	else
+		interpret_rtl_li(&cpu.edx, 0x0);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cwtl" : "cltd");
