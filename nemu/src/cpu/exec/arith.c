@@ -41,6 +41,7 @@ make_EHelper(sub) {
 
 make_EHelper(cmp) {
   //TODO();
+  printf("%d\t%d\n",cpu.eflags.SF,cpu.eflags.OF);
   rtl_sub(&t2, &id_dest->val, &id_src->val);
     
   rtl_update_ZFSF(&t2, id_dest->width);
@@ -53,7 +54,7 @@ make_EHelper(cmp) {
   rtl_and(&t0, &t0, &t1);
   rtl_msb(&t0, &t0, id_dest->width);
   rtl_set_OF(&t0);
-
+  printf("%d\t%d\n",cpu.eflags.SF,cpu.eflags.OF);
   print_asm_template2(cmp);
 }
 
