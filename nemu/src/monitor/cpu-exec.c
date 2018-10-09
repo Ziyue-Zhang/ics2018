@@ -36,7 +36,7 @@ void cpu_exec(uint64_t n) {
   for (; n > 0; n --) {
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
-    printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\n", cpu.eip, cpu.eax,cpu.ebx,cpu.ecx,cpu.edx,cpu.ebp);
+    printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\n", cpu.eip, cpu.eax,cpu.ebx,cpu.ecx,cpu.edx,cpu.esi);
     exec_wrapper(print_flag);
     nr_guest_instr_add(1);
 
