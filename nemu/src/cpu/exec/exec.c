@@ -1,6 +1,6 @@
 #include "cpu/exec.h"
 #include "all-instr.h"
-
+extern void decode_mov_E2G_1();
 typedef struct {
   DHelper decode;
   EHelper execute;
@@ -184,7 +184,7 @@ opcode_entry opcode_table [512] = {
   /* 0xa8 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xac */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xb0 */	EMPTY, EMPTY, EMPTY, EMPTY,
-  /* 0xb4 */	EMPTY, EMPTY, IDEXW(mov_E2G, movzx, 1), IDEX(mov_E2G, movzx),
+  /* 0xb4 */	EMPTY, EMPTY, IDEXW(mov_E2G_1, movzx, 1), IDEX(mov_E2G_1, movzx),
   /* 0xb8 */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xbc */	EMPTY, EMPTY, EMPTY, EMPTY,
   /* 0xc0 */	EMPTY, EMPTY, EMPTY, EMPTY,
