@@ -25,6 +25,7 @@ make_EHelper(test);
 make_EHelper(jcc);
 make_EHelper(leave);
 make_EHelper(adc);
+make_EHelper(sbb);
 make_EHelper(or);
 
 make_EHelper(sar);
