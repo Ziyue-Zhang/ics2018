@@ -1,7 +1,7 @@
 #include "klib.h"
 
-#ifndef __ISA_NATIVE__
-//#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+//#ifndef __ISA_NATIVE__
+#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
   assert(s);
