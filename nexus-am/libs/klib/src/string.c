@@ -1,7 +1,7 @@
 #include "klib.h"
 
-//#ifndef __ISA_NATIVE__
-#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+#ifndef __ISA_NATIVE__
+//#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
   assert(s);
@@ -83,7 +83,6 @@ void* memset(void* v,int c,size_t n) {
 	 temp++;
   }
   return v;
-  return NULL;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
@@ -95,7 +94,6 @@ void* memcpy(void* out, const void* in, size_t n) {
 	temp2++;
   }
   return out;
-  return NULL;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
