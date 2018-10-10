@@ -1,15 +1,13 @@
 #include "klib.h"
 
-//#ifndef __ISA_NATIVE__
-#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+#ifndef __ISA_NATIVE__
+//#if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 size_t strlen(const char *s) {
   assert(s);
-  for(size_t i = 0; ; i++){
+  for(size_t i = 0; ; i++)
 	  if(s[i] == '\0')
 		  return i;
-	  printf("fuck!\n");
-  }
 }
 
 char *strcpy(char* dst,const char* src) {
@@ -22,15 +20,6 @@ char *strcpy(char* dst,const char* src) {
 }
 
 char* strncpy(char* dst, const char* src, size_t n) {
-  assert(dst && src);
-  size_t i = 0;
-  for (; i < n; i++)
-	  dst[i] = src[i];
-  dst[i] = '\0';
-  return dst;
-}
-
-char* strcat(char* dst, const char* src) {
   int i = 0;
   while(dst[i] != '\0')
 	  i++;
@@ -43,13 +32,22 @@ char* strcat(char* dst, const char* src) {
   return dst;
 }
 
+char* strcat(char* dst, const char* src) {
+  int i = 0;
+  while(dst[i] != '\0')
+	  i++;
+  while(src[i] != '\0')
+	  dst[i] = src[i];
+  dst[i] = '\0';
+  return dst;
+}
+
 int strcmp(const char* s1, const char* s2) {
   assert(s1 && s2);
   while (*s1 == *s2 && *s1 && *s2)
   {
       s1++;
       s2++;
-	  printf("fuck2\n");
   } 
   int ret = *(unsigned char*)s1 - *(unsigned char*)s2;
   if(ret < 0)
@@ -59,7 +57,7 @@ int strcmp(const char* s1, const char* s2) {
   return 0;
 }
 
-/*int strncmp(const char* s1, const char* s2, size_t n) {
+int strncmp(const char* s1, const char* s2, size_t n) {
   assert(s1 && s2);
   while (n > 0 && *s1 && *s2) {
 	  if (*s1 != *s2) {
@@ -74,7 +72,7 @@ int strcmp(const char* s1, const char* s2) {
 	  n--;
   }
   return 0;
-}*/
+}
 
 void* memset(void* v,int c,size_t n) {
   char* temp = v;
@@ -83,7 +81,6 @@ void* memset(void* v,int c,size_t n) {
 	 temp++;
   }
   return v;
-  return NULL;
 }
 
 void* memcpy(void* out, const void* in, size_t n) {
@@ -95,7 +92,6 @@ void* memcpy(void* out, const void* in, size_t n) {
 	temp2++;
   }
   return out;
-  return NULL;
 }
 
 int memcmp(const void* s1, const void* s2, size_t n){
