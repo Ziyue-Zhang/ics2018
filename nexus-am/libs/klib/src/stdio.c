@@ -13,7 +13,12 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  return 0;
+  int n;
+  va_list va;
+  va_start(va, fmt);
+  n = vsprintf(out, fmt, va);
+  va_end(va);
+  return n;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
