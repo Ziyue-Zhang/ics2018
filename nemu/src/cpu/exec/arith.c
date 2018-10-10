@@ -66,9 +66,6 @@ make_EHelper(inc) {
 
   rtl_update_ZFSF(&t2, id_dest->width);
 
-  rtl_setrelop(RELOP_LTU, &t0, &t2, &id_dest->val);
-  rtl_set_CF(&t0);
-
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_not(&t0, &t0);
   rtl_xor(&t1, &id_dest->val, &t2);
@@ -86,9 +83,6 @@ make_EHelper(dec) {
   operand_write(id_dest, &t2);
 
   rtl_update_ZFSF(&t2, id_dest->width);
-
-  rtl_setrelop(RELOP_LTU, &t0, &id_dest->val, &t2);
-  rtl_set_CF(&t0);
 
   rtl_xor(&t0, &id_dest->val, &id_src->val);
   rtl_xor(&t1, &id_dest->val, &t2);
