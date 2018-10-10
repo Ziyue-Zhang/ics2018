@@ -45,7 +45,7 @@ char* strcat(char* dst, const char* src) {
 
 int strcmp(const char* s1, const char* s2) {
   assert(s1 && s2);
-  while (*s1 == *s2 && *s1 && *s2)
+  while (*s1 == *s2 && *s1)
   {
       s1++;
       s2++;
@@ -59,9 +59,9 @@ int strcmp(const char* s1, const char* s2) {
   return 0;
 }
 
-/*int strncmp(const char* s1, const char* s2, size_t n) {
+int strncmp(const char* s1, const char* s2, size_t n) {
   assert(s1 && s2);
-  while (n > 0 && *s1 && *s2) {
+  while (n > 0 && *s1) {
 	  if (*s1 != *s2) {
 		  int ret = *(unsigned char*)s1 - *(unsigned char*)s2;
 		  if(ret > 0)
@@ -74,7 +74,7 @@ int strcmp(const char* s1, const char* s2) {
 	  n--;
   }
   return 0;
-}*/
+}
 
 void* memset(void* v,int c,size_t n) {
   char* temp = v;
