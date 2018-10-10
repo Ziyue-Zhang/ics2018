@@ -8,6 +8,8 @@
 #include <am.h>
 #include <stdarg.h>
 
+#define __NATIVE_USE_KLIB__
+
 #ifdef __NATIVE_USE_KLIB__
 
 #define strlen my_strlen
