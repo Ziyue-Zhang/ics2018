@@ -164,13 +164,13 @@ static bool make_token(char *e) {
 					tokens[nr_token].str[32]='\0'; 
 					break;
 				 case HEX:
-					if(substr_len > 8)
+					if(substr_len > 10)
 						assert(0);
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len); 
 					tokens[nr_token].str[8]='\0'; 
-					int temp;
+					uint32_t temp;
 					sscanf(tokens[nr_token].str,"0x%x",&temp);
-					snprintf(tokens[nr_token].str,32,"%d",temp);	
+					snprintf(tokens[nr_token].str,32,"%u",temp);	
 					tokens[nr_token].type=NUM; 
 					nr_token++;
 					break;
