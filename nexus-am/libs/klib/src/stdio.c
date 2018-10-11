@@ -27,6 +27,7 @@ int sprintf(char *out, const char *fmt, ...) {
 			{
 				*out = *s;
 				out++;
+				n++;
 				s++;
 			}
 		}
@@ -47,14 +48,16 @@ int sprintf(char *out, const char *fmt, ...) {
 				*out = d[i];
 				i--;
 				out++;
+				n++;
 			}
 		}
 	}
-	else
+	else {
 		*out = *fmt;
-	out++;
+		out++;
+		n++;
+	}
 	fmt++;
-	n++;
   }
   *out = '\0';
   va_end(va);
