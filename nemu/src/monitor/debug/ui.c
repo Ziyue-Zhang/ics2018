@@ -190,7 +190,8 @@ static int cmd_p(char *args)
 	bool flag = true;
 	uint32_t  result = expr(args, &flag);
 	if(!flag)
-		assert(0);
+		printf("input wrong expression\n");
+		//assert(0);
 	else 
 		printf("%d  0x%08x\n", result,result);
 	return 0;
