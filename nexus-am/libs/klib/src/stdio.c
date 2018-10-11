@@ -13,10 +13,50 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  int n;
+  assert(fmt);
   va_list va;
+  int n = 0;
   va_start(va, fmt);
-  n = vsprintf(out, fmt, va);
+  while(*fmt != '\0')
+  {
+	if (*fmt == '%') {
+		if (*(fmt + 1) == 's') {
+			fmt++;
+			char *s = va_arg(va,char*);
+			while(*s != '\0')
+			{
+				*out = *s;
+				out++;
+				s++;
+			}
+		}
+		else if (*(fmt + 1) == 'd') {
+			fmt++;
+			int result = va_arg(va, int);
+			char d[32];
+			int temp = result;
+			int i;
+			for(i = 0; temp != 0; i++)
+			{
+				d[i] = temp % 10 + '0';
+				temp /= 10;
+			}
+			i--;
+			while(i >= 0)
+			{
+				*out = d[i];
+				i--;
+				out++;
+			}
+		}
+	}
+	else
+		*out = *fmt;
+	out++;
+	fmt++;
+	n++;
+  }
+  *out = '\0';
   va_end(va);
   return n;
 }
