@@ -71,5 +71,48 @@ void difftest_step(uint32_t eip) {
 
   // TODO: Check the registers state with the reference design.
   // Set `nemu_state` to `NEMU_ABORT` if they are not the same.
-  TODO();
+  //TODO();
+  bool flag = true;
+  if(ref_r.eax != cpu.eax)
+  {
+	  printf("Error in eax. qume eax:0x%08x\tnemu eax:0x%08x\t\n", ref_r.eax, cpu.eax);
+	  flag = false;
+  }
+  if(ref_r.ebx != cpu.ebx)
+  {
+	  printf("Error in ebx. qume ebx:0x%08x\tnemu ebx:0x%08x\t\n", ref_r.ebx, cpu.ebx);
+	  flag = false;
+  }
+  if(ref_r.ecx != cpu.ecx)
+  {
+	  printf("Error in ecx. qume ecx:0x%08x\tnemu ecx:0x%08x\t\n", ref_r.ecx, cpu.ecx);
+	  flag = false;
+  }
+  if(ref_r.edx != cpu.edx)
+  {
+	  printf("Error in edx. qume edx:0x%08x\tnemu edx:0x%08x\t\n", ref_r.edx, cpu.edx);
+	  flag = false;
+  }
+  if(ref_r.esp != cpu.esp)
+  {
+	  printf("Error in esp. qume esp:0x%08x\tnemu esp:0x%08x\t\n", ref_r.esp, cpu.esp);
+	  flag = false;
+  }
+  if(ref_r.ebp != cpu.ebp)
+  {
+	  printf("Error in ebp. qume ebp:0x%08x\tnemu ebp:0x%08x\t\n", ref_r.ebp, cpu.ebp);
+	  flag = false;
+  }
+  if(ref_r.esi != cpu.esi)
+  {
+	  printf("Error in esi. qume esi:0x%08x\tnemu esi:0x%08x\t\n", ref_r.esi, cpu.esi);
+	  flag = false;
+  }
+  if(ref_r.edi != cpu.edi)
+  {
+	  printf("Error in edi. qume edi:0x%08x\tnemu edi:0x%08x\t\n", ref_r.edi, cpu.edi);
+	  flag = false;
+  }
+  if(!flag)
+	nemu_state = NEMU_ABORT;
 }
