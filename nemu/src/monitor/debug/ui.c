@@ -145,7 +145,7 @@ static int cmd_info(char *args) {
 		printf("$ebp = 0x%08x\t$esi = 0x%08x\n", cpu.ebp,cpu.esi);
 		printf("$edi = 0x%08x\t$esp = 0x%08x\n", cpu.edi,cpu.esp);
 		printf("$eip = 0x%08x\n", cpu.eip);
-		printf("CF = %d\tZF = %d\tSF = %d\n",cpu.eflags.CF,cpu.eflags.ZF,cpu.eflags.SF);
+		printf("CF = %d\tZF = %d\tSF = %d\t",cpu.eflags.CF,cpu.eflags.ZF,cpu.eflags.SF);
 		printf("IF = %d\tOF = %d\n",cpu.eflags.IF,cpu.eflags.OF);
     } 
 	else if (arg[0] == 'w') {
