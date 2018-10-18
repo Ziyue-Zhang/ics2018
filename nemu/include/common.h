@@ -1,6 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#define HAS_IOE
 #define DEBUG
 //#define DIFF_TEST
 
