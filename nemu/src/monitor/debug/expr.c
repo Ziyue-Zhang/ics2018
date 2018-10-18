@@ -119,7 +119,7 @@ static bool make_token(char *e) {
 				 case EIP:
 					add = rules[i].token_type - 300;
 					uint32_t* address = (uint32_t*) &cpu;
-					snprintf(tokens[nr_token].str,32, "%d", *(address + add));
+					snprintf(tokens[nr_token].str,32, "%u", *(address + add));
 					tokens[nr_token].type = NUM;
 					nr_token++;
 				    break;
