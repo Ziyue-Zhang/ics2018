@@ -252,28 +252,28 @@ uint32_t eval(int p, int q)
 	{
 		uint32_t address = atoi(tokens[p+1].str); 
 		return (uint32_t) vaddr_read(address, 4);
-	}*/ 
+	}
 	else if (tokens[p].type == DEREF)
 	{
 		uint32_t address = eval(p+1, q);
 		return (uint32_t) vaddr_read(address, 4);
 	}
-	/*else if (tokens[p].type == MINUS && p + 1 == q)
-		return -1*atoi(tokens[p+1].str);*/
+	else if (tokens[p].type == MINUS && p + 1 == q)
+		return -1*atoi(tokens[p+1].str);
 	else if (tokens[p].type == MINUS)
 	{
 		int result = -eval(p+1, q);
 		return result;
 	}
-	/*else if (tokens[p].type == NOT && p + 1 == q)
+	else if (tokens[p].type == NOT && p + 1 == q)
 	{
 		return !atoi(tokens[p+1].str);
-	}*/
+	}
 	else if (tokens[p].type == NOT)
 	{
 		uint32_t result = !eval(p+1, q);
 		return result;
-	}
+	}*/
 	else
 	{  
 		int temp = p + 1;
@@ -321,7 +321,29 @@ uint32_t eval(int p, int q)
 			if(flag)
 				op = tokens[temp].type;
 			else
-				assert(0);
+				{
+				if (tokens[p].type == DEREF)
+				{
+					uint32_t address = eval(p+1, q);
+					return (uint32_t) vaddr_read(address, 4);
+				}
+				/*else if (tokens[p].type == MINUS && p + 1 == q)
+					return -1*atoi(tokens[p+1].str);*/
+				else if (tokens[p].type == MINUS)
+				{
+					int result = -eval(p+1, q);
+					return result;
+				}
+				/*else if (tokens[p].type == NOT && p + 1 == q)
+				{
+					return !atoi(tokens[p+1].str);
+				}*/
+				else if (tokens[p].type == NOT)
+				{
+					uint32_t result = !eval(p+1, q);
+					return result;
+				}
+				}
   		}
 		uint32_t val1 = eval(p, temp-1);
 	    uint32_t val2 = eval(temp + 1, q);
