@@ -241,6 +241,7 @@ uint32_t eval(int p, int q)
 		assert(0);
 	else if (p == q)
 	{
+		printf("%d\n",atoi(tokens[p].str));		
 		if(tokens[p].type == NUM)
 			return (uint32_t)atoi(tokens[p].str);
 		else
@@ -330,8 +331,7 @@ uint32_t eval(int p, int q)
 				/*else if (tokens[p].type == MINUS && p + 1 == q)
 					return -1*atoi(tokens[p+1].str);*/
 				else if (tokens[p].type == MINUS)
-				{
-                    printf("xjm\n");					
+				{					
 					int result = -eval(p+1, q);
 					return result;
 				}
