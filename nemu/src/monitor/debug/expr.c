@@ -167,7 +167,7 @@ static bool make_token(char *e) {
 					if(substr_len > 10)
 						assert(0);
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len); 
-					tokens[nr_token].str[8]='\0'; 
+					tokens[nr_token].str[substr_len]='\0'; 
 					uint32_t temp;
 					sscanf(tokens[nr_token].str,"0x%x",&temp);
 					snprintf(tokens[nr_token].str,32,"%u",temp);	
