@@ -331,6 +331,7 @@ uint32_t eval(int p, int q)
 					return -1*atoi(tokens[p+1].str);*/
 				else if (tokens[p].type == MINUS)
 				{
+                    printf("xjm\n");					
 					int result = -eval(p+1, q);
 					return result;
 				}
