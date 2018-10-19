@@ -241,7 +241,7 @@ uint32_t eval(int p, int q)
 		assert(0);
 	else if (p == q)
 	{
-		printf("%d\n",atoi(tokens[p].str));		
+		//printf("%d\n",atoi(tokens[p].str));		
 		if(tokens[p].type == NUM)
 			return (uint32_t)atoi(tokens[p].str);
 		else
@@ -289,36 +289,36 @@ uint32_t eval(int p, int q)
 		else
 	  	{
 			bool flag = false;
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == '/' || tokens[i].type == '*')
-	 			{
-					flag = true;
-					temp = i;
- 	 			}
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == '-' || tokens[i].type == '+')
- 				{
-					flag = true;
-					temp = i;
-	  			}
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == TK_G || tokens[i].type == TK_L || tokens[i].type == TK_GEQ || tokens[i].type == TK_LEQ)
-				{
-					flag = true;
-					temp = i;
-	 			}
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
-				if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
-				{
-					flag = true;
-					temp = i;
-	 			}
-			for (int i = p + 1; i < q && tokens[i].type != '('; i++)
+			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
 				if (tokens[i].type == TK_OR || tokens[i].type == TK_AND)
 				{
 					flag = true;
 					temp = i;
 	 			}
+			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
+				{
+					flag = true;
+					temp = i;
+	 			}
+			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == TK_G || tokens[i].type == TK_L || tokens[i].type == TK_GEQ || tokens[i].type == TK_LEQ)
+				{
+					flag = true;
+					temp = i;
+	 			}
+			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == '-' || tokens[i].type == '+')
+ 				{
+					flag = true;
+					temp = i;
+	  			}
+			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+				if (tokens[i].type == '/' || tokens[i].type == '*')
+	 			{
+					flag = true;
+					temp = i;
+ 	 			}
 			if(flag)
 				op = tokens[temp].type;
 			else
@@ -328,17 +328,11 @@ uint32_t eval(int p, int q)
 					uint32_t address = eval(p+1, q);
 					return (uint32_t) vaddr_read(address, 4);
 				}
-				/*else if (tokens[p].type == MINUS && p + 1 == q)
-					return -1*atoi(tokens[p+1].str);*/
 				else if (tokens[p].type == MINUS)
 				{					
 					int result = -eval(p+1, q);
 					return result;
 				}
-				/*else if (tokens[p].type == NOT && p + 1 == q)
-				{
-					return !atoi(tokens[p+1].str);
-				}*/
 				else if (tokens[p].type == NOT)
 				{
 					uint32_t result = !eval(p+1, q);
