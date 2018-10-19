@@ -160,8 +160,8 @@ static bool make_token(char *e) {
 					if(substr_len > 32)
 						assert(0);
 					strncpy(tokens[nr_token].str,e+position-substr_len,substr_len);
-					set_tokens;
 					tokens[nr_token].str[substr_len]='\0'; 
+					set_tokens;
 					break;
 				 case HEX:
 					if(substr_len > 10)
