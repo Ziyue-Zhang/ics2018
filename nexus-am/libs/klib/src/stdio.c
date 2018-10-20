@@ -12,7 +12,8 @@ int printf(const char *fmt, ...) {
   while(*fmt != '\0')
   { 
 	if (*fmt == '%') {
-		if (*(fmt + 1) == 's') {
+		fmt++;
+		if (*fmt == 's') {
 			fmt++;
 			char *s = va_arg(va,char*);
 			while(*s != '\0')
@@ -22,8 +23,7 @@ int printf(const char *fmt, ...) {
 				s++;
 			}
 		}
-		else if (*(fmt + 1) == 'd') {
-			fmt++;
+		else if (*fmt == 'd') {
 			int result = va_arg(va, int);
 			char d[32];
 			int temp = result;
@@ -41,6 +41,10 @@ int printf(const char *fmt, ...) {
 				n++;
 			}
 		}
+		else if(*(fmt + 1) == '0') {
+			fmt++;
+			fmt++;
+		}			
 	}
 	else {
 		_putc(*fmt);
@@ -64,8 +68,8 @@ int sprintf(char *out, const char *fmt, ...) {
   while(*fmt != '\0')
   { 
 	if (*fmt == '%') {
-		if (*(fmt + 1) == 's') {
-			fmt++;
+		fmt++;
+		if (*fmt == 's') {
 			char *s = va_arg(va,char*);
 			while(*s != '\0')
 			{
@@ -75,8 +79,7 @@ int sprintf(char *out, const char *fmt, ...) {
 				s++;
 			}
 		}
-		else if (*(fmt + 1) == 'd') {
-			fmt++;
+		else if (*fmt == 'd') {
 			int result = va_arg(va, int);
 			char d[32];
 			int temp = result;
