@@ -49,7 +49,7 @@ int strcmp(const char* s1, const char* s2) {
   {
       s1++;
       s2++;
-	  printf("fuck2\n");
+	  //printf("fuck\n");
   } 
   int ret = *(unsigned char*)s1 - *(unsigned char*)s2;
   if(ret < 0)
