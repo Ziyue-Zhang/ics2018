@@ -3,7 +3,8 @@
 #include <klib.h>
 
 int main(){
-  _RTCReg rtc;
+uptime();  
+/*_RTCReg rtc;
   _ioe_init();
   int sec = 1;
   while (1) {
@@ -17,6 +18,6 @@ int main(){
       printf("%d seconds).\n", sec);
     }
     sec ++;
-  }
+  }*/
   return 0;
 }
