@@ -8,7 +8,7 @@ size_t strlen(const char *s) {
   for(size_t i = 0; ; i++){
 	  if(s[i] == '\0')
 		  return i;
-	  printf("fuck!\n");
+	  //printf("fuck!\n");
   }
 }
 
