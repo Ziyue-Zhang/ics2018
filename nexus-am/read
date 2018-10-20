@@ -1,0 +1,17 @@
+libs/klib/src/io.c:25:  dev->read(_DEVREG_TIMER_UPTIME, &uptime, sizeof(uptime));
+libs/klib/src/io.c:31:  dev->read(_DEVREG_TIMER_DATE, rtc, sizeof(_RTCReg));
+libs/klib/src/io.c:37:  dev->read(_DEVREG_INPUT_KBD, &key, sizeof(_KbdReg));
+libs/klib/src/io.c:52:  dev->write(_DEVREG_VIDEO_FBCTL, &ctl, sizeof(ctl));
+libs/klib/src/io.c:61:  dev->write(_DEVREG_VIDEO_FBCTL, &ctl, sizeof(ctl));
+libs/klib/src/io.c:67:  dev->read(_DEVREG_VIDEO_INFO, &info, sizeof(info));
+libs/klib/src/io.c:74:  dev->read(_DEVREG_VIDEO_INFO, &info, sizeof(info));
+tests/ioetest/main.c:17:    printf("* Device: %s\n", dev->name);
+tests/ioetest/main.c:18:    switch (dev->id) {
+tests/ioetest/main.c:38:  dev->read(_DEVREG_TIMER_UPTIME, &uptime, sizeof(uptime));
+tests/ioetest/main.c:43:  dev->read(_DEVREG_TIMER_UPTIME, &uptime, sizeof(uptime));
+tests/ioetest/main.c:51:  dev->read(_DEVREG_VIDEO_INFO, &info, sizeof(info));
+tests/ioetest/main.c:62:      dev->write(_DEVREG_VIDEO_FBCTL, &ctl, sizeof(ctl));
+tests/ioetest/main.c:70:  dev->read(_DEVREG_PCICONF(bus, slot, func, offset), &res, 4);
+tests/ioetest/main.c:91:  dev->read(reg, &res, 1);
+tests/ioetest/main.c:97:  dev->read(reg, &res, 4);
+tests/ioetest/main.c:102:  dev->write(reg, &res, 1);
