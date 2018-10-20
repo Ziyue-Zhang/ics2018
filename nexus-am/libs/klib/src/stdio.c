@@ -69,7 +69,12 @@ int printf(const char *fmt, ...) {
 					n++;
 				}
 			}
-		}			
+		}
+	}
+	else if(*fmt == '\\') {
+		fmt++;
+		if(*fmt == 'n')
+			_putc('\n');
 	}
 	else {
 		_putc(*fmt);
