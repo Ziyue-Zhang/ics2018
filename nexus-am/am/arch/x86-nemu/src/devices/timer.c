@@ -2,7 +2,7 @@
 #include <x86.h>
 #include <amdev.h>
 extern uint32_t uptime();
-static uint32_t start;
+static uint32_t boot;
 
 size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
@@ -10,8 +10,9 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
       uint32_t now;
 	  now = uptime();
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
+	  long useconds = now - boot;
       uptime->hi = 0;
-      uptime->lo = now - start;
+      uptime->lo = (useconds + 500) / 1000;
       return sizeof(_UptimeReg);
     }
     case _DEVREG_TIMER_DATE: {
@@ -29,5 +30,5 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
 }
 
 void timer_init() {
-	start = uptime();
+	boot = uptime();
 }
