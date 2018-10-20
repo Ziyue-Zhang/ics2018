@@ -81,6 +81,7 @@ int sprintf(char *out, const char *fmt, ...) {
   {
 	if (*fmt == '%') {
 		char sign = *(fmt + 1);
+_putc(sign);
 		switch (sign) {
 		case 's':
 			fmt++;
