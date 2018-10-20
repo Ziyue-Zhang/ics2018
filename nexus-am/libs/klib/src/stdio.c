@@ -20,7 +20,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   return 0;
 }
 
-/*int sprintf(char *out, const char *fmt, ...) {
+int sprintf(char *out, const char *fmt, ...) {
   assert(fmt);
   va_list va;
   int n = 0;
@@ -70,9 +70,9 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   *out = '\0';
   va_end(va);
   return n;
-}*/
+}
 
-int sprintf(char *out, const char *fmt, ...) {
+/*int sprintf(char *out, const char *fmt, ...) {
   assert(fmt);
   va_list va;
   int n = 0;
@@ -112,7 +112,7 @@ int sprintf(char *out, const char *fmt, ...) {
 				n++;
 			}
 		}
-		default:break;
+		//default:break;
 		}
 	}
 	else {
@@ -125,7 +125,7 @@ int sprintf(char *out, const char *fmt, ...) {
   *out = '\0';
   va_end(va);
   return n;
-}
+}*/
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
