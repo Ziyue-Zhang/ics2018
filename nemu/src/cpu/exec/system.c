@@ -2,7 +2,8 @@
 
 void difftest_skip_ref();
 void difftest_skip_dut();
-
+extern uint32_t pio_read_common(ioaddr_t addr, int len);
+extern void pio_write_common(ioaddr_t addr, uint32_t data, int len); 
 make_EHelper(lidt) {
   TODO();
 
@@ -42,8 +43,9 @@ make_EHelper(iret) {
 }
 
 make_EHelper(in) {
-  TODO();
-
+  //TODO();
+  t0 = pio_read_common(id_src->val, id_src->width);
+  operand_write(id_dest, &t0);
   print_asm_template2(in);
 
 #if defined(DIFF_TEST)
@@ -52,8 +54,8 @@ make_EHelper(in) {
 }
 
 make_EHelper(out) {
-  TODO();
-
+  //TODO();
+  pio_write_common(id_dest->val, id_src->val, id_src->width); 
   print_asm_template2(out);
 
 #if defined(DIFF_TEST)

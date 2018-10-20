@@ -281,7 +281,7 @@ uint32_t eval(int p, int q)
 		int op = 0;
 		if (tokens[p].type == '(')
 	  	{
-			for(; !check_parentheses(p,temp);  temp++);
+			for(; !check_parentheses(p,temp); temp++);
 			temp++;
 			op = tokens[temp].type;
 		//	printf("%d\n",op);
