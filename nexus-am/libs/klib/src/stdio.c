@@ -5,15 +5,51 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 int printf(const char *fmt, ...) {
-  /*assert(fmt);
+  assert(fmt);
   va_list va;
   int n = 0;
   va_start(va, fmt);
   while(*fmt != '\0')
-  {
-
-  }*/
-	return 0;
+  { 
+	if (*fmt == '%') {
+		if (*(fmt + 1) == 's') {
+			fmt++;
+			char *s = va_arg(va,char*);
+			while(*s != '\0')
+			{
+				_putc(*s);
+				n++;
+				s++;
+			}
+		}
+		else if (*(fmt + 1) == 'd') {
+			fmt++;
+			int result = va_arg(va, int);
+			char d[32];
+			int temp = result;
+			int i;
+			for(i = 0; temp != 0; i++)
+			{
+				d[i] = temp % 10 + '0';
+				temp /= 10;
+			}
+			i--;
+			while(i >= 0)
+			{
+				_putc(d[i]);
+				i--;
+				n++;
+			}
+		}
+	}
+	else {
+		_putc(*fmt);
+		n++;
+	}
+	fmt++;
+  }
+  va_end(va);
+  return n;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
@@ -26,7 +62,7 @@ int sprintf(char *out, const char *fmt, ...) {
   int n = 0;
   va_start(va, fmt);
   while(*fmt != '\0')
-  {
+  { 
 	if (*fmt == '%') {
 		if (*(fmt + 1) == 's') {
 			fmt++;
