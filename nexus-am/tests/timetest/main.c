@@ -3,7 +3,7 @@
 #include <klib.h>
 
 int main(){
-  printf("a");
+  printf("a\n");
   /*_RTCReg rtc;
   _ioe_init();
   int sec = 1;
