@@ -82,7 +82,7 @@ int sprintf(char *out, const char *fmt, ...) {
 	if (*fmt == '%') {
 		char sign = *(fmt + 1);
 		switch (sign) {
-		case 's':{
+		case 's':
 			fmt++;
 			char *s = va_arg(va, char*);
 			while (*s != '\0')
@@ -92,8 +92,7 @@ int sprintf(char *out, const char *fmt, ...) {
 				n++;
 				s++;
 			}
-		}
-		case 'd':{
+		case 'd':
 			fmt++;
 			int result = va_arg(va, int);
 			char d[32];
@@ -112,8 +111,7 @@ int sprintf(char *out, const char *fmt, ...) {
 				out++;
 				n++;
 			}
-		}
-		//default:break;
+		default:break;
 		}
 	}
 	else {
