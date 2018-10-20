@@ -3,10 +3,10 @@
 #include <klib.h>
 
 int main(){
-  _putc('a');
-  //_RTCReg rtc;
+  printf("a");
+  /*_RTCReg rtc;
   _ioe_init();
-  /*int sec = 1;
+  int sec = 1;
   while (1) {
     _putc('a');
 	while(uptime() < 1000 * sec);
