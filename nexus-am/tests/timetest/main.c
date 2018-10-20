@@ -6,6 +6,7 @@ int main(){
   _RTCReg rtc;
   _ioe_init();
   int sec = 1;
+  _putc('a');
   while (1) {
     _putc('a');
 	while(uptime() < 1000 * sec);
