@@ -14,8 +14,7 @@ int printf(const char *fmt, ...) {
 	if (*fmt == '%') {
 		fmt++;
 		if (*fmt == 's') {
-			fmt++;
-			char *s = va_arg(va,char*);
+			char *s = va_arg(va, char*);
 			while(*s != '\0')
 			{
 				_putc(*s);
@@ -41,9 +40,35 @@ int printf(const char *fmt, ...) {
 				n++;
 			}
 		}
-		else if(*(fmt + 1) == '0') {
+		else if(*fmt == '0') {
 			fmt++;
+			int len = *fmt-'0';
 			fmt++;
+			if(*fmt == 'd')
+			{
+				int result = va_arg(va, int);
+				char d[32];
+				int i;
+				for(i = 0; result != 0; i++)
+				{
+					d[i] = result % 10 + '0';
+					result /= 10;
+				}
+				len -= i;
+				i--;
+				while(len > 0)
+				{
+					_putc('0');
+					len--;
+					n++;
+				}
+				while(i >= 0)
+				{
+					_putc(d[i]);
+					i--;
+					n++;
+				}
+			}
 		}			
 	}
 	else {
