@@ -4,6 +4,7 @@
 
 int main(){
   _RTCReg rtc;
+   _putc('a');
   _ioe_init();
   int sec = 1;
   _putc('a');
