@@ -20,7 +20,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
   return 0;
 }
 
-int sprintf(char *out, const char *fmt, ...) {
+/*int sprintf(char *out, const char *fmt, ...) {
   assert(fmt);
   va_list va;
   int n = 0;
@@ -70,9 +70,9 @@ int sprintf(char *out, const char *fmt, ...) {
   *out = '\0';
   va_end(va);
   return n;
-}
+}*/
 
-/*int sprintf(char *out, const char *fmt, ...) {
+int sprintf(char *out, const char *fmt, ...) {
   assert(fmt);
   va_list va;
   int n = 0;
@@ -80,7 +80,8 @@ int sprintf(char *out, const char *fmt, ...) {
   while(*fmt != '\0')
   {
 	if (*fmt == '%') {
-		switch (*(fmt + 1)) {
+		char sign = *(fmt + 1);
+		switch (sign) {
 		case 's':{
 			fmt++;
 			char *s = va_arg(va, char*);
@@ -125,7 +126,7 @@ int sprintf(char *out, const char *fmt, ...) {
   *out = '\0';
   va_end(va);
   return n;
-}*/
+}
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
   return 0;
