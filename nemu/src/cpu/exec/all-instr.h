@@ -44,3 +44,5 @@ make_EHelper(cltd);
 make_EHelper(jmp);
 make_EHelper(jmp_rm);
 make_EHelper(neg);
+
+make_EHelper(in);
