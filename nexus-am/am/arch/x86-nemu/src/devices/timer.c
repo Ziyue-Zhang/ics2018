@@ -1,6 +1,7 @@
 #include <am.h>
 #include <x86.h>
 #include <amdev.h>
+#define RTC 0x48
 extern uint32_t uptime();
 static uint32_t boot;
 
@@ -8,12 +9,13 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       uint32_t now;
-	  now = uptime();
+	  now = inl(RTC);
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
 	  long useconds = now - boot;
       uptime->hi = 0;
-      uptime->lo = (useconds + 500) / 1000;
-      return sizeof(_UptimeReg);
+      //uptime->lo = (useconds + 500) / 1000;
+      uptime->lo = useconds;
+	  return sizeof(_UptimeReg);
     }
     case _DEVREG_TIMER_DATE: {
       _RTCReg *rtc = (_RTCReg *)buf;
@@ -30,5 +32,5 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
 }
 
 void timer_init() {
-	boot = uptime();
+	boot = inl(RTC);
 }
