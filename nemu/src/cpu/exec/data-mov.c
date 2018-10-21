@@ -61,7 +61,7 @@ make_EHelper(cltd) {
 }
 
 make_EHelper(cwtl) {
-  if (decoding.is_operand_size_16) {
+  /*if (decoding.is_operand_size_16) {
     //TODO();
 	rtl_lr(R_AL, t0, 1);
 	t0 = (int16_t)t0;
@@ -72,7 +72,7 @@ make_EHelper(cwtl) {
 	rtl_lr(R_AX, t0, 2);
 	t0 = (int32_t) t0;
 	rtl_sr(R_EAX, &t0, 4);
-  }
+  }*/
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
 }
