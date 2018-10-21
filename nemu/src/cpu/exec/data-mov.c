@@ -63,13 +63,15 @@ make_EHelper(cltd) {
 make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     //TODO();
-	t0 = (int16_t) R_AL;
-	interpret_rtl_li(&cpu.eax, t0);
+	rtl_lr(R_AL, t0, 1);
+	t0 = (int16_t)t0;
+	rtl_sr(R_AX, &t0, 2);
   } 
   else {
     //TODO();
-	t0 = (int32_t) R_AX;
-	interpret_rtl_li(&cpu.eax, t0);
+	rtl_lr(R_AX, t0, 2);
+	t0 = (int32_t) t0;
+	rtl_sr(R_EAX, &t0, 4);
   }
 
   print_asm(decoding.is_operand_size_16 ? "cbtw" : "cwtl");
