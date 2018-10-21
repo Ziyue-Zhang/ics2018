@@ -64,7 +64,7 @@ make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     //TODO();
 	t0 = (int16_t) R_AL;
-	rtl_sr(R_AX, &t0, 2);
+	interpret_rtl_li(&cpu.eax, t0);
   } 
   else {
     //TODO();
