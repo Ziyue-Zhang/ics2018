@@ -277,43 +277,43 @@ uint32_t eval(int p, int q)
 	}*/
 	else
 	{  
-		int temp = p + 1;
+		int temp = q - 1;
 		int op = 0;
-		if (tokens[p].type == '(')
+		if (tokens[q].type == ')')
 	  	{
-			for(; !check_parentheses(p,temp); temp++);
-			temp++;
+			for(; !check_parentheses(temp,q); temp--);
+			temp--;
 			op = tokens[temp].type;
 		//	printf("%d\n",op);
  		}
 		else
 	  	{
 			bool flag = false;
-			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+			for (int i = q - 1; !flag && i > p && tokens[i].type != ')'; i--)
 				if (tokens[i].type == TK_OR || tokens[i].type == TK_AND)
 				{
 					flag = true;
 					temp = i;
 	 			}
-			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+			for (int i = q - 1; !flag && i > p && tokens[i].type != ')'; i--)
 				if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
 				{
 					flag = true;
 					temp = i;
 	 			}
-			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+			for (int i = q - 1; !flag && i > p && tokens[i].type != ')'; i--)
 				if (tokens[i].type == TK_G || tokens[i].type == TK_L || tokens[i].type == TK_GEQ || tokens[i].type == TK_LEQ)
 				{
 					flag = true;
 					temp = i;
 	 			}
-			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+			for (int i = q - 1; !flag && i > p && tokens[i].type != ')'; i--)
 				if (tokens[i].type == '-' || tokens[i].type == '+')
  				{
 					flag = true;
 					temp = i;
 	  			}
-			for (int i = p + 1; !flag && i < q && tokens[i].type != '('; i++)
+			for (int i = q - 1; !flag && i > p && tokens[i].type != ')'; i--)
 				if (tokens[i].type == '/' || tokens[i].type == '*')
 	 			{
 					flag = true;
