@@ -40,6 +40,24 @@ int printf(const char *fmt, ...) {
 				n++;
 			}
 		}
+		else if (*fmt == 'x') {
+			int result = va_arg(va, int);
+			char d[32];
+			int temp = result;
+			int i;
+			for(i = 0; temp != 0; i++)
+			{
+				d[i] = temp % 16 + '0';
+				temp /= 16;
+			}
+			i--;
+			while(i >= 0)
+			{
+				_putc(d[i]);
+				i--;
+				n++;
+			}
+		}
 		else if(*fmt == '0') {
 			fmt++;
 			int len = *fmt-'0';
@@ -53,6 +71,31 @@ int printf(const char *fmt, ...) {
 				{
 					d[i] = result % 10 + '0';
 					result /= 10;
+				}
+				len -= i;
+				i--;
+				while(len > 0)
+				{
+					_putc('0');
+					len--;
+					n++;
+				}
+				while(i >= 0)
+				{
+					_putc(d[i]);
+					i--;
+					n++;
+				}
+			}
+			else if(*fmt == 'x')
+			{
+				int result = va_arg(va, int);
+				char d[32];
+				int i;
+				for(i = 0; result != 0; i++)
+				{
+					d[i] = result % 16 + '0';
+					result /= 16;
 				}
 				len -= i;
 				i--;
