@@ -64,13 +64,15 @@ make_EHelper(cwtl) {
   if (decoding.is_operand_size_16) {
     //TODO();
 	rtl_lr(R_AL, t0, 1);
-	t0 = (int16_t)t0;
+	//t0 = (int16_t)t0;
+	t0=0;
 	rtl_sr(R_AX, &t0, 2);
   } 
   else {
     //TODO();
 	rtl_lr(R_AX, t0, 2);
 	t0 = (int32_t) t0;
+	t0=0;
 	rtl_sr(R_EAX, &t0, 4);
   }
 
