@@ -61,6 +61,7 @@ make_EHelper(cltd) {
 }
 
 make_EHelper(cwtl) {
+  printf("xjm\n");
   if (decoding.is_operand_size_16) {
     //TODO();
 	rtl_lr(&t0, R_AL, 1);
