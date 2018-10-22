@@ -95,6 +95,8 @@ int printf(const char *fmt, ...) {
 				for(i = 0; result != 0; i++)
 				{
 					d[i] = result % 16 + '0';
+					if(d[i] > 57)
+						d[i] += 39;
 					result /= 16;
 				}
 				len -= i;
