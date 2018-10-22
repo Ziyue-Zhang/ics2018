@@ -63,7 +63,7 @@ void cpu_exec(uint64_t n) {
 				}
 				else if(p->result != new_result && p->flag)
 				{
-					printf("Stop at breakpoint");
+					printf("Stop at breakpoint\n");
 					have_stop = true;
 				}
 			}
