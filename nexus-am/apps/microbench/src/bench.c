@@ -99,7 +99,7 @@ int main() {
   
   printk("==================================================\n");
   printk("MicroBench %s", pass ? "PASS" : "FAIL");
-  if (SETTING != 0) {
+  if (SETTING == 0) {
     printk("        %d Marks\n", (unsigned int)bench_score);
     printk("                   vs. %d Marks (%s)\n", REF_SCORE, REF_CPU);
   } else {
