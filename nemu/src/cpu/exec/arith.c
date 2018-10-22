@@ -221,7 +221,6 @@ make_EHelper(imul2) {
 
 // imul with three operands
 make_EHelper(imul3) {
-  printf("xjm\n");
   rtl_sext(&t0, &id_src->val, id_src->width);
   rtl_sext(&t1, &id_src2->val, id_src->width);
   rtl_sext(&id_dest->val, &id_dest->val, id_dest->width);
