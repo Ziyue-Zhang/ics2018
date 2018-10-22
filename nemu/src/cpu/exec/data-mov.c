@@ -92,6 +92,8 @@ make_EHelper(movzx) {
 }
 
 make_EHelper(lea) {
+	printf("fuck1");
   operand_write(id_dest, &id_src->addr);
+	printf("fuck2");
   print_asm_template2(lea);
 }
