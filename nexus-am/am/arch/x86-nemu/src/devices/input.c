@@ -14,7 +14,7 @@ size_t input_read(uintptr_t reg, void *buf, size_t size) {
 	  //printf("%d\n",s);
       kbd->keydown = s;
 	  kbd->keycode = k;
-	  if(s==0)
+	  if(s!=0)
 		  kbd->keycode = _KEY_NONE;
       return sizeof(_KbdReg);
     }
