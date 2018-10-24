@@ -4,13 +4,13 @@
 #include <klib.h>
 
 static uint32_t* const fb __attribute__((used)) = (uint32_t *)0x40000;
-int min(int a, int b)
+/*int min(int a, int b)
 {
 	if (a < b)
 		return a;
 	else
 		return b;
-}
+}*/
 size_t video_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_INFO: {
@@ -34,7 +34,7 @@ size_t video_write(uintptr_t reg, void *buf, size_t size) {
       
 	  int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h, W = 400, H = 300;
 	  uint32_t *pixels = ctl->pixels;
-	  int cp_bytes = sizeof(uint32_t) * min(w, W - x);
+	  int cp_bytes = sizeof(uint32_t) * (w < (W - x)) ? w : (W - x);
 	  for (int j = 0; j < h && y + j < H; j ++) {
 	    memcpy(&fb[(y + j) * W + x], pixels, cp_bytes);
 	    pixels += w;
