@@ -43,7 +43,7 @@ size_t video_write(uintptr_t reg, void *buf, size_t size) {
 	  int w = ctl -> w, h = ctl -> h;
 	  for(int i = 0; i < h; i++)
 		  for(int j = 0; j < w; j++)
-			  fb[(ctl->y + i) * width + (ctl->x + i)] = ctl->pixels[i * ctl->w + j];
+			  fb[(ctl->y + i) * width + (ctl->x + j)] = ctl->pixels[i * ctl->w + j];
       if (ctl->sync) {
         // do nothing, hardware syncs.
       }
