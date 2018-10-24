@@ -32,18 +32,18 @@ size_t video_write(uintptr_t reg, void *buf, size_t size) {
 	  //int size = screen_width() * screen_height();
 	  //for (i = 0; i < size; i ++) fb[i] = i;
       
-	  /*int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h, W = 400, H = 300;
+	  int x = ctl->x, y = ctl->y, w = ctl->w, h = ctl->h, W = 400, H = 300;
 	  uint32_t *pixels = ctl->pixels;
 	  int cp_bytes = sizeof(uint32_t) * ((w < (W - x)) ? w : (W - x));
 	  for (int j = 0; j < h && y + j < H; j ++) {
 	    memcpy(&fb[(y + j) * W + x], pixels, cp_bytes);
 	    pixels += w;
-	  }*/
-	  int width = screen_width();
+	  }
+	  /*int width = screen_width();
 	  int w = ctl -> w, h = ctl -> h;
 	  for(int i = 0; i < h; i++)
 		  for(int j = 0; j < w; j++)
-			  fb[(ctl->y + i) * width + (ctl->x + j)] = ctl->pixels[i * ctl->w + j];
+			  fb[(ctl->y + i) * width + (ctl->x + j)] = ctl->pixels[i * ctl->w + j];*/
       if (ctl->sync) {
         // do nothing, hardware syncs.
       }
