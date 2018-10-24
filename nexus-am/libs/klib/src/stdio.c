@@ -33,6 +33,11 @@ int printf(const char *fmt, ...) {
 				temp /= 10;
 			}
 			i--;
+			if(result == 0)
+			{
+				i++;
+				d[i]='0';
+			}
 			while(i >= 0)
 			{
 				_putc(d[i]);
