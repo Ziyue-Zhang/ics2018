@@ -3,7 +3,7 @@
 #include <amdev.h>
 #define RTC 0x48
 extern uint32_t uptime();
-static uint32_t boot;
+//static uint32_t boot;
 
 size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
@@ -11,7 +11,7 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
       uint32_t now;
 	  now = inl(RTC);
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
-	  long useconds = now - boot;
+	  long useconds = now;
       uptime->hi = 0;
       //uptime->lo = (useconds + 500) / 1000;
       uptime->lo = useconds;
@@ -32,5 +32,5 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
 }
 
 void timer_init() {
-	boot = inl(RTC);
+	//boot = inl(RTC);
 }
