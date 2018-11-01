@@ -14,7 +14,7 @@ int main() {
 
   while (1) {
     int key = read_key();
-	printf("key=%d\n",key);
+	if(key) printf("key=%d\n",key);
     bool down = false;
     if (key & 0x8000) {
 	  printf("key1=%d\n",key);
