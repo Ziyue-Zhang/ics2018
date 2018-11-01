@@ -13,7 +13,7 @@ size_t input_read(uintptr_t reg, void *buf, size_t size) {
 	  kbd->keycode = k & ~KEYDOWN_MASK;*/
 	  //printf("%d\n",s);
 	  kbd->keydown = ((k >> 15) & 1);
-	  kbd->keydown = k & 0x7fff;
+	  kbd->keycode = k & 0x7fff;
       //kbd->keydown = s;
 	  //kbd->keycode = k;
 	  //if(s!=0)
