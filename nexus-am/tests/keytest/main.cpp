@@ -14,13 +14,13 @@ int main() {
 
   while (1) {
     int key = read_key();
-	if(key) printf("key=%d\n",key);
+	//if(key) printf("key=%d\n",key);
     bool down = false;
     if (key & 0x8000) {
-	  printf("key1=%d\n",key);
+	  //printf("key1=%d\n",key);
       key ^= 0x8000;
       down = true;
-	  printf("key2=%d\n",key);
+	  //printf("key2=%d\n",key);
     }
     if (key != _KEY_NONE) {
       printf("Get key: %d %s %s\n", key, names[key], down ? "down" : "up");
