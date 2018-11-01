@@ -8,13 +8,13 @@ extern uint32_t uptime();
 size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
-      //uint32_t now;
-	  //now = inl(RTC);
+      uint32_t now;
+	  now = inl(RTC);
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
-	  //long useconds = now;
+	  long useconds = now;
       uptime->hi = 0;
-      //uptime->lo = (useconds + 500) / 1000;
-      uptime->lo = inl(RTC);
+      uptime->lo = (useconds + 500) / 1000;
+      //uptime->lo = inl(RTC);
 	  return sizeof(_UptimeReg);
     }
     case _DEVREG_TIMER_DATE: {
