@@ -13,8 +13,8 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
 	  long useconds = now;
       uptime->hi = 0;
-      //uptime->lo = (useconds + 500) / 1000;
-      uptime->lo = useconds;
+      uptime->lo = (useconds + 500) / 1000;
+      //uptime->lo = useconds;
 	  return sizeof(_UptimeReg);
     }
     case _DEVREG_TIMER_DATE: {
