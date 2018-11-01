@@ -11,7 +11,7 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
       uint32_t now;
 	  now = inl(RTC);
 	  _UptimeReg *uptime = (_UptimeReg *)buf;
-	  long useconds = now - boot;
+	  long useconds = now;
       uptime->hi = 0;
       //uptime->lo = (useconds + 500) / 1000;
       uptime->lo = useconds;
