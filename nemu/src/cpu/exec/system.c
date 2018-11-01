@@ -48,15 +48,22 @@ make_EHelper(iret) {
 
 make_EHelper(in) {
   //TODO();
-  if(id_src->width==1)
+  /*if(id_src->width==1)
   	t0 = pio_read_b(id_src->val);
   else if(id_src->width==2)
 	t0 = pio_read_w(id_src->val);
   else if(id_src->width==4)
 	t0 = pio_read_l(id_src->val);
-  operand_write(id_dest, &t0);
+  operand_write(id_dest, &t0);*/
+  if(id_src->width==1)
+  	rtl_li(&id_dest->val, pio_read_b((ioaddr_t)id_src->val));
+  else if(id_src->width==2)
+  	rtl_li(&id_dest->val, pio_read_w((ioaddr_t)id_src->val));
+  else if(id_src->width==4)
+  	rtl_li(&id_dest->val, pio_read_l((ioaddr_t)id_src->val));
+  operand_write(id_dest, &id_dest->val);
   print_asm_template2(in);
-
+  
 #if defined(DIFF_TEST)
   difftest_skip_ref();
 #endif
