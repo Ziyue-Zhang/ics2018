@@ -4,10 +4,10 @@
 #include "common.h"
 #include <stdio.h>
 #include <assert.h>
-
+volatile static int dummy;
 #ifdef DEBUG
 extern FILE* log_fp;
-volatile static int dummy;
+
 #	define Log_write(format, ...) \
   do { \
     if (log_fp != NULL) { \
