@@ -40,6 +40,7 @@ typedef struct {
 		uint32_t IF:1;
 		uint32_t OF:1;
 	}eflags;
+	unsigned int cs;
 } CPU_state;
 
 extern CPU_state cpu;
