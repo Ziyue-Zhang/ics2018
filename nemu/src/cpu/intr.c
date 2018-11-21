@@ -9,7 +9,7 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   //TODO();
   rtl_push((rtlreg_t*)&cpu.eflags);
   rtl_push((rtlreg_t*)&cpu.cs);
-  rtl_push((rtlreg_t*)&cpu.eip);
+  rtl_push((rtlreg_t*)&cpu.eip); //this could be ret_addr
 }
 
 void dev_raise_intr() {
