@@ -1,5 +1,7 @@
 #include "cpu/exec.h"
 #include "memory/mmu.h"
+#define NR_IRQ    256
+extern GateDesc idt[NR_IRQ];
 
 void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
