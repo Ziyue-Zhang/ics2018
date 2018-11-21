@@ -12,6 +12,10 @@ void raise_intr(uint8_t NO, vaddr_t ret_addr) {
   rtl_push((rtlreg_t*)&cpu.eflags);
   rtl_push((rtlreg_t*)&cpu.cs);
   rtl_push((rtlreg_t*)&cpu.eip); //this could be ret_addr
+  uint32_t base = cpu.idtr.base;
+  uint32_t offset;
+  offset = (vaddr_read(base + NO * 8, 4) & 0x0000ffff) | (vaddr_read(base + NO * 8 + 4, 4) & 0xffff0000);
+  rtl_j(offset);
 }
 
 void dev_raise_intr() {
