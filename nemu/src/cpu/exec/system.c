@@ -37,7 +37,7 @@ make_EHelper(mov_cr2r) {
 
 make_EHelper(int) {
   //TODO();
-  raise_intr(id_dest->val, decoding.seq_eip);
+  raise_intr(id_dest->val, decoding.jmp_eip);
   print_asm("int %s", id_dest->str);
 
 #if defined(DIFF_TEST) && defined(DIFF_TEST_QEMU)
