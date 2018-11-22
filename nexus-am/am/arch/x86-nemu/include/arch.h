@@ -16,7 +16,7 @@ struct _Context {
 	uintptr_t err;
 	struct _Protect *prot;
 	int irq;
-	uintptr_t eflags, cs, eip;
+	uintptr_t eip, cs, eflags;
 };
 
 #define GPR1 eax
