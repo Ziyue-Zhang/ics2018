@@ -8,6 +8,7 @@ extern uint32_t pio_read_b(ioaddr_t addr);
 extern void pio_write_l(ioaddr_t addr, uint32_t data);
 extern void pio_write_w(ioaddr_t addr, uint32_t data);
 extern void pio_write_b(ioaddr_t addr, uint32_t data);
+extern void raise_intr();
 make_EHelper(lidt) {
   //TODO();
   cpu.idtr.limit = vaddr_read(id_dest->addr, 2);
@@ -35,8 +36,8 @@ make_EHelper(mov_cr2r) {
 }
 
 make_EHelper(int) {
-  TODO();
-
+  //TODO();
+  raise_intr(id_dest->val, decoding.seq_eip);
   print_asm("int %s", id_dest->str);
 
 #if defined(DIFF_TEST) && defined(DIFF_TEST_QEMU)
