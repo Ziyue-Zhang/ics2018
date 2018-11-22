@@ -9,8 +9,12 @@ extern void pio_write_l(ioaddr_t addr, uint32_t data);
 extern void pio_write_w(ioaddr_t addr, uint32_t data);
 extern void pio_write_b(ioaddr_t addr, uint32_t data);
 make_EHelper(lidt) {
-  TODO();
-
+  //TODO();
+  cpu.idtr.limit = vaddr_read(id_dest->addr, 2);
+  if (decoding.is_operand_size_16)
+	cpu.idtr.base = vaddr_read(id_dest->addr + 2, 3);
+  else
+    cpu.idtr.base = vaddr_read(id_dest->addr + 2, 4);
   print_asm_template1(lidt);
 }
 
