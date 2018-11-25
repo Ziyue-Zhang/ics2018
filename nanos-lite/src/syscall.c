@@ -6,16 +6,13 @@ extern void _putc(char ch);
 uint32_t syswrite(int fd, const void *buf, size_t count)
 {
 	uint32_t len = 0;
+	const char *temp = buf;
 	if(fd == 1 || fd == 2)
 	{
-		while(count)
-		{
-			count--;
-			_putc(((char*)buf)[len]);
-			len++;
-		}
+		for (; len < count; ++len) 
+			_putc(temp[len]);
 	}
-	return len;
+	return count;
 }
 
 _Context* do_syscall(_Context *c) {
@@ -27,7 +24,7 @@ _Context* do_syscall(_Context *c) {
   switch (a[0]) {
 	case SYS_yield: _yield(), c->GPRx = 0; break;
 	case SYS_exit: _halt(a[0]); break;
-	case SYS_write: Log("nmsl"),c->GPRx = syswrite(a[0], (void *)a[1], a[2]); break;
+	case SYS_write: a[0] = syswrite(a[1], (void *)a[2], a[3]); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
