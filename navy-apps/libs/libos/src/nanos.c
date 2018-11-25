@@ -47,7 +47,7 @@ void *_sbrk(intptr_t increment){
 	else
 	{
 		void * old_pro_brk = _end;
-		_end = pro_end;
+		_end = pro_brk;
 		return old_pro_brk;
 	}
 }
