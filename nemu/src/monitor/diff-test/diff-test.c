@@ -113,6 +113,15 @@ void difftest_step(uint32_t eip) {
 	  printf("Error in edi. qume edi:0x%08x\tnemu edi:0x%08x\t\n", ref_r.edi, cpu.edi);
 	  flag = false;
   }
+  if(ref_r.eip != cpu.eip)
+  {
+	  printf("Error in eip. qemu eip:0x%08x\tnemu eip:0x%08x\t\n", ref_r.eip, cpu.eip);
+	  flag = false;
+  }
+  if(ref_r.eflags.ZF != cpu.eflags.ZF)
+  {
+	  flag = false;
+  }
   if(!flag)
 	nemu_state = NEMU_ABORT;
 }
