@@ -11,7 +11,6 @@ uint32_t sys_write(int fd, const void *buf, size_t count)
 	{
 		for (; len < count; ++len) 
 			_putc(temp[len]);
-		Log("nmsl");
 	}
 	if(count==1)
 		count=-1;
