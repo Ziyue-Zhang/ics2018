@@ -7,7 +7,6 @@ uint32_t sys_write(int fd, const void *buf, size_t count)
 {
 	uint32_t len = 0;
 	const char *temp = buf;
-	Log("%d",count);
 	if(fd == 1 || fd == 2)
 	{
 		for (; len < count; ++len) 
