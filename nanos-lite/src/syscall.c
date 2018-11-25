@@ -13,7 +13,7 @@ uint32_t sys_write(int fd, const void *buf, size_t count)
 		for (; len < count; ++len) 
 			_putc(temp[len]);
 	}
-	if(count==0)
+	if(count==1)
 		count=-1;
 	return count;
 }
