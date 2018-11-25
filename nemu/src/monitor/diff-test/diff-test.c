@@ -120,6 +120,7 @@ void difftest_step(uint32_t eip) {
   }
   if(ref_r.eflags.ZF != cpu.eflags.ZF)
   {
+	  printf("nmsl\n");
 	  flag = false;
   }
   if(!flag)
