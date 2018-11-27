@@ -5,14 +5,15 @@ extern size_t ramdisk_read();
 extern size_t get_ramdisk_size();
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
+  Log("nmsl");
   ramdisk_read((void *)DEFAULT_ENTRY, 0, get_ramdisk_size());
+  Log("nmsl");
   return DEFAULT_ENTRY;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
   Log("nmsl");
   uintptr_t entry = loader(pcb, filename);
-  Log("nmsl");
   ((void(*)())entry) ();
 }
 
