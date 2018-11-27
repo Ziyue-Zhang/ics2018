@@ -13,7 +13,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
   //ramdisk_read((void *)DEFAULT_ENTRY, 0, get_ramdisk_size());
   int fd = fs_open(filename, 0, 0);
-  Log("fd = %d", fd);
+  Log("filename:%s fd = %d", filename, fd);
   return DEFAULT_ENTRY;
 }
 
