@@ -70,6 +70,11 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 	return len;
 }
 
+int fs_close(int fd)
+{
+	return 0;
+}
+
 size_t fs_filesz(int fd) 
 {
 	  return file_table[fd].size;
