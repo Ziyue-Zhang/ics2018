@@ -7,6 +7,7 @@ typedef struct {
   char *name;
   size_t size;
   size_t disk_offset;
+  //off_t open_offset;
   ReadFn read;
   WriteFn write;
 } Finfo;
