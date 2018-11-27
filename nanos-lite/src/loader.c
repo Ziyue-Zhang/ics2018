@@ -12,6 +12,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 void naive_uload(PCB *pcb, const char *filename) {
   Log("nmsl");
   uintptr_t entry = loader(pcb, filename);
+  Log("nmsl");
   ((void(*)())entry) ();
 }
 
