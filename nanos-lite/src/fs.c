@@ -1,4 +1,5 @@
 #include "fs.h"
+#include "klib.h"
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
@@ -41,7 +42,7 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = 640 * 480 * sizeof(uint32_t); 
+  file_table[FD_FB].size = screen_width() * screen_height() * sizeof(uint32_t); 
 }
 
 int fs_open(const char *pathname, int flags, int mode)
