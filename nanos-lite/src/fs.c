@@ -1,16 +1,17 @@
-#include <unistd.h>
 #include "fs.h"
 
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
+
+extern size_t ramdisk_read();
+extern size_t ramdisk_write();
+
 int fs_open(const char *pathname, int flags, int mode);
 ssize_t fs_read(int fd, void *buf, size_t len);
 ssize_t fs_write(int fd, const void *buf, size_t len);
 off_t fs_lseek(int fd, off_t offset, int whence);
 int fs_close(int fd);
 size_t fs_filesz(int fd);
-extern size_t ramdisk_read();
-extern size_t ramdisk_write();
 
 typedef struct {
   char *name;

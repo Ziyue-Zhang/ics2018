@@ -1,8 +1,9 @@
 #include "common.h"
 #include "syscall.h"
+#include "fs.h"
 
 extern void _putc(char ch);
-
+extern int fs_open();
 uint32_t sys_write(int fd, const void *buf, size_t count)
 {
 	uint32_t len = 0;
@@ -23,8 +24,9 @@ _Context* do_syscall(_Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
   switch (a[0]) {
-	case SYS_yield: _yield(), c->GPRx = 0; break;
 	case SYS_exit: _halt(a[0]); break;
+	case SYS_yield: _yield(), c->GPRx = 0; break;
+    case SYS_open: c->GPRx = fs_open((char *)a[1], a[2], a[3]); break;
 	case SYS_brk: c->GPRx = 0;	break;
 	case SYS_write: c->GPRx = sys_write(a[1], (void *)a[2], a[3]); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
