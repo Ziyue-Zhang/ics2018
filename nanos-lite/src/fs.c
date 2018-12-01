@@ -68,7 +68,11 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 	ssize_t fs_size = fs_filesz(fd);
 	ssize_t fs_offset = file_table[fd].open_offset;	 
 	if(fs_offset >= fs_size)
+	{
+		Log("nmsl");
 		return 0;
+	}
+
 	if(fs_offset + len > fs_size)
 	    len = fs_size - fs_offset;
 Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
@@ -82,7 +86,6 @@ Log("%d",fd);
 	{
 		ramdisk_read(buf, fs_offset + file_table[fd].disk_offset, len);
 		file_table[fd].open_offset += len;
-		Log("nmsl");
 		return len;
 	}
 }
