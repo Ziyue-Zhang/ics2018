@@ -4,7 +4,7 @@
 
 extern void _putc(char ch);
 
-uint32_t sys_write(int fd, const void *buf, size_t count)
+/*uint32_t sys_write(int fd, const void *buf, size_t count)
 {
 	uint32_t len = 0;
 	const char *temp = buf;
@@ -14,7 +14,7 @@ uint32_t sys_write(int fd, const void *buf, size_t count)
 			_putc(temp[len]);
 	}
 	return count;
-}
+}*/
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
