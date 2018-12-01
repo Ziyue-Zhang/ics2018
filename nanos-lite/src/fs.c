@@ -63,12 +63,12 @@ int fs_open(const char *pathname, int flags, int mode)
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
 	ssize_t fs_size = fs_filesz(fd);
-	ssize_t fs_offset = file_table[fd].open_offset;	
-	Log("%d %d",fs_size, fs_offset); 
+	ssize_t fs_offset = file_table[fd].open_offset;	 
 	if(fs_offset >= fs_size)
 		return 0;
 	if(fs_offset + len > fs_size)
 	    len = fs_size - fs_offset;
+	Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 	if(file_table[fd].read)
 		return file_table[fd].read(buf, fs_offset, len);
 	else
