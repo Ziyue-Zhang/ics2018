@@ -14,9 +14,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
   //ramdisk_read((void *)DEFAULT_ENTRY, 0, get_ramdisk_size());
   int fd = fs_open(filename, 0, 0);
-  //ssize_t fs_size = fs_filesz(fd);
+  ssize_t fs_size = fs_filesz(fd);
   Log("filename:%s fd = %d", filename, fd);
-  //fs_read(fd, (void *)DEFAULT_ENTRY, fs_size);
+  fs_read(fd, (void *)DEFAULT_ENTRY, fs_size);
   //fs_write(fd, (void *)DEFAULT_ENTRY, fs_size);
   
   fs_close(fd);
