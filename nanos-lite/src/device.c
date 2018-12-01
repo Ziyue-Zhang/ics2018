@@ -1,5 +1,6 @@
 #include "common.h"
 #include <amdev.h>
+#include "klib.h"
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   //return 0;
@@ -29,7 +30,11 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  offset /= sizeof(uint32_t);
+  int row = offset / screen_width();
+  int col = offset % screen_width();
+  draw_rect((uint32_t *)buf, col, row, len/4, 1);
+  return len;
 }
 
 void init_device() {
