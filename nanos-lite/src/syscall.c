@@ -26,8 +26,8 @@ _Context* do_syscall(_Context *c) {
 	case SYS_exit: _halt(a[0]); break;
 	case SYS_yield: _yield(), c->GPRx = 0; break;
     case SYS_open: c->GPRx = fs_open((char *)a[1], a[2], a[3]); break;
-	case SYS_read: Log("nmsl"), c->GPRx = fs_read(a[1], (void *)a[2], a[3]); break;
-	case SYS_write: c->GPRx = fs_write(a[1], (void *)a[2], a[3]); break;
+	case SYS_read: c->GPRx = fs_read(a[1], (void *)a[2], a[3]); break;
+	case SYS_write: Log("nmsl"), c->GPRx = fs_write(a[1], (void *)a[2], a[3]); break;
 	case SYS_close: c->GPRx = fs_close(a[1]); break;
 	case SYS_lseek: c->GPRx = fs_lseek(a[1], a[2], a[3]); break;
 	case SYS_brk: c->GPRx = 0;	break;
