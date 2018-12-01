@@ -5,6 +5,7 @@
 extern size_t ramdisk_read();
 extern size_t get_ramdisk_size();
 extern ssize_t fs_read();
+extern ssize_t fs_write();
 extern int fs_open();
 extern int fs_close();
 size_t fs_filesz();
@@ -16,6 +17,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ssize_t fs_size = fs_filesz(fd);
   Log("filename:%s fd = %d", filename, fd);
   fs_read(fd, (void *)DEFAULT_ENTRY, fs_size);
+  fs_write(fd, (void *)DEFAULT_ENTRY, fs_size);
   fs_close(fd);
   return DEFAULT_ENTRY;
 }
