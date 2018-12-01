@@ -71,8 +71,8 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		return -1;
 	if(fs_offset + len > fs_size)
 	    len = fs_size - fs_offset;
-Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
-Log("%d",fd);
+//Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
+//Log("%d",fd);
 	if(file_table[fd].read)
 	{
 		file_table[fd].open_offset += len;
