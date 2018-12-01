@@ -56,9 +56,11 @@ int fs_open(const char *pathname, int flags, int mode)
 	for(int i = 0; i < NR_FILES; i++)
 	{
 		if(strcmp(file_table[i].name, pathname) == 0)
+		{Log("%s",pathname);
 			return i;
 	}
-	//Log("%s",pathname);
+	}
+	Log("%s",pathname);
 	assert(0);
 	return -1;
 }
@@ -112,8 +114,7 @@ Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 
 off_t fs_lseek(int fd, off_t offset, int whence) 
 {
-  Log("nmsl");
-	switch (whence) 
+  switch (whence) 
   {
     case SEEK_SET: file_table[fd].open_offset = offset; break;
     case SEEK_CUR: file_table[fd].open_offset += offset; break;
