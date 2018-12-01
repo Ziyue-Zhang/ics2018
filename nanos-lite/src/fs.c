@@ -56,6 +56,7 @@ int fs_open(const char *pathname, int flags, int mode)
 		if(strcmp(file_table[i].name, pathname) == 0)
 			return i;
 	}
+	Log("%s",pathname);
 	assert(0);
 	return -1;
 }
