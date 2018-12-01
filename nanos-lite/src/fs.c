@@ -84,6 +84,21 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 	return len;
 }
 
+off_t fs_lseek(int fd, off_t offset, int whence) 
+{
+  switch (whence) 
+  {
+    case SEEK_SET: file_table[fd].open_offset = offset; break;
+    case SEEK_CUR: file_table[fd].open_offset += offset; break;
+    case SEEK_END: file_table[fd].open_offset = file_table[fd].size + offset; break;
+    default: return -1;
+  }
+  if (file_table[fd].size < file_table[fd].open_offset)
+    file_table[fd].open_offset = file_table[fd].size;
+  return file_table[fd].open_offset;
+}
+
+
 int fs_close(int fd)
 {
 	return 0;
