@@ -26,13 +26,13 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 static char dispinfo[128] __attribute__((used));
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  Log("nmsl");
+  //Log("nmsl");
   memcpy(buf, dispinfo + offset, len);
   return len;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  //Log("nmsl");
+  Log("nmsl");
   offset /= sizeof(uint32_t);
   int row = offset / screen_width();
   int col = offset % screen_width();
