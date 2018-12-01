@@ -98,7 +98,7 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 //Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 	if(file_table[fd].write)
 	{
-		file_table[fd].open_offset += len;
+		//file_table[fd].open_offset += len;
 		return file_table[fd].write(buf, fs_offset, len);
 	}	
 	else 
