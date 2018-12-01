@@ -23,14 +23,14 @@ _Context* do_syscall(_Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
   switch (a[0]) {
-	case SYS_exit: _halt(a[0]); break;
-	case SYS_yield: _yield(), c->GPRx = 0; break;
-    case SYS_open: c->GPRx = fs_open((char *)a[1], a[2], a[3]); break;
-	case SYS_read: c->GPRx = fs_read(a[1], (void *)a[2], a[3]); break;
-	case SYS_write: c->GPRx = fs_write(a[1], (void *)a[2], a[3]); break;
-	case SYS_close: c->GPRx = fs_close(a[1]); break;
-	case SYS_lseek: c->GPRx = fs_lseek(a[1], a[2], a[3]); break;
-	case SYS_brk: c->GPRx = 0;	break;
+	case SYS_exit: Log("nmsl"),_halt(a[0]); break;
+	case SYS_yield: Log("nmsl"),_yield(), c->GPRx = 0; break;
+    case SYS_open: Log("nmsl"),c->GPRx = fs_open((char *)a[1], a[2], a[3]); break;
+	case SYS_read: Log("nmsl"),c->GPRx = fs_read(a[1], (void *)a[2], a[3]); break;
+	case SYS_write: Log("nmsl"),c->GPRx = fs_write(a[1], (void *)a[2], a[3]); break;
+	case SYS_close: Log("nmsl"),c->GPRx = fs_close(a[1]); break;
+	case SYS_lseek: Log("nmsl"),c->GPRx = fs_lseek(a[1], a[2], a[3]); break;
+	case SYS_brk: Log("nmsl"),c->GPRx = 0;	break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
