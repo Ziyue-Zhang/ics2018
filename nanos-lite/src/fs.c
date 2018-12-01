@@ -67,6 +67,8 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 {
 	ssize_t fs_size = fs_filesz(fd);
 	ssize_t fs_offset = file_table[fd].open_offset;	 
+	if(fs_offset > fs_size)
+		Log("nmsl");
 	if(fs_offset >= fs_size)
 		return -1;
 	if(fs_offset + len > fs_size)
@@ -91,6 +93,8 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 //	Log("nmsl");
 	ssize_t fs_size = fs_filesz(fd);
 	ssize_t fs_offset = file_table[fd].open_offset;	
+	if(fs_offset > fs_size)
+		Log("nmsl");
 	if(fs_offset > fs_size)
 		return -1;
     if(fs_offset + len > fs_size)
