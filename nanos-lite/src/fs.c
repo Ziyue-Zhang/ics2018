@@ -35,7 +35,7 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   {"stdin", 0, 0, 0, invalid_read, invalid_write},
-  {"stdout", 0, 0, 0, invalid_read, serial_write},
+  {"stdout", 0, 0, 0, invalid_read, serial_write},  
   {"stderr", 0, 0, 0, invalid_read, serial_write},
   {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
   {"/proc/dispinfo", 128, 0, 0, dispinfo_read, invalid_write},
@@ -56,18 +56,15 @@ int fs_open(const char *pathname, int flags, int mode)
 	for(int i = 0; i < NR_FILES; i++)
 	{
 		if(strcmp(file_table[i].name, pathname) == 0)
-		{Log("%s",pathname);
 			return i;
 	}
-	}
-	Log("%s",pathname);
+//	Log("%s",pathname);
 	assert(0);
 	return -1;
 }
 
 ssize_t fs_read(int fd, void *buf, size_t len)
 {
-	Log("nmsl");
 	ssize_t fs_size = fs_filesz(fd);
 	ssize_t fs_offset = file_table[fd].open_offset;	 
 	if(fs_offset >= fs_size)
