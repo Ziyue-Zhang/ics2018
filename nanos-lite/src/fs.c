@@ -112,7 +112,8 @@ Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 
 off_t fs_lseek(int fd, off_t offset, int whence) 
 {
-  switch (whence) 
+  Log("nmsl");
+	switch (whence) 
   {
     case SEEK_SET: file_table[fd].open_offset = offset; break;
     case SEEK_CUR: file_table[fd].open_offset += offset; break;
