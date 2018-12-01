@@ -102,9 +102,9 @@ Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 	}	
 	else 
 	{		
+		Log("nmsl");
 		ramdisk_write(buf, fs_offset + file_table[fd].disk_offset, len);
 		file_table[fd].open_offset += len;
-		Log("nmsl");
 		return len;
 	}
 }
