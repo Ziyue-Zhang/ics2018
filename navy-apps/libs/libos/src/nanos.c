@@ -42,6 +42,7 @@ extern end;
 
 void *_sbrk(intptr_t increment){
     static char *_end = &end;
+	Log("%d", *_end);
 	char *pro_brk = _end + increment;
 	if(_syscall_(SYS_brk, (uintptr_t)pro_brk, 0, 0) != 0)
 		return (void *)-1;
