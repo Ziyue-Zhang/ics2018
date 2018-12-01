@@ -1,9 +1,9 @@
 #include "common.h"
-#include "syscall.h"
 #include "fs.h"
+#include "syscall.h"
 
 extern void _putc(char ch);
-extern int fs_open();
+//extern int fs_open();
 
 uint32_t sys_write(int fd, const void *buf, size_t count)
 {
