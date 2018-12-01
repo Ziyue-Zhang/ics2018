@@ -66,9 +66,9 @@ int _close(int fd) {
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  //_exit(SYS_lseek);
-  return _syscall_(SYS_lseek, fd, offset, whence);
-  //return 0;
+  _exit(SYS_lseek);
+  //return _syscall_(SYS_lseek, fd, offset, whence);
+  return 0;
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
