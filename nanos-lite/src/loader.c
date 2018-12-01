@@ -17,8 +17,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ssize_t fs_size = fs_filesz(fd);
   Log("filename:%s fd = %d", filename, fd);
   fs_read(fd, (void *)DEFAULT_ENTRY, fs_size);
-  //fs_write(fd, (void *)DEFAULT_ENTRY, fs_size);
-  
+    
   fs_close(fd);
   return DEFAULT_ENTRY;
 }
