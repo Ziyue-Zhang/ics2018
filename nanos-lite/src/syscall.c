@@ -10,12 +10,9 @@ uint32_t sys_write(int fd, const void *buf, size_t count)
 	const char *temp = buf;
 	if(fd == 1 || fd == 2)
 	{
-		//Log("nmsl");
 		for (; len < count; ++len) 
 			_putc(temp[len]);
 	}
-	else
-		Log("nmsl");
 	return count;
 }
 
