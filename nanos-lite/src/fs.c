@@ -71,7 +71,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		return 0;
 	if(fs_offset + len > fs_size)
 	    len = fs_size - fs_offset;
-	//Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
+Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
 	if(file_table[fd].read)
 	{
 		file_table[fd].open_offset += len;
@@ -92,8 +92,9 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 	if(fs_offset > fs_size)
 		return 0;
     if(fs_offset + len > fs_size)
-		len = fs_size - fs_offset;	
-	if(file_table[fd].write)	
+		len = fs_size - fs_offset;		
+Log("size:%d offset:%d len:%d",fs_size, fs_offset, len);
+	if(file_table[fd].write)
 	{
 		file_table[fd].open_offset += len;
 		return file_table[fd].write(buf, fs_offset, len);
