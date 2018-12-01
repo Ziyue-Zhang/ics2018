@@ -30,7 +30,7 @@ _Context* do_syscall(_Context *c) {
 	case SYS_write: Log("nmsl"),c->GPRx = fs_write(a[1], (void *)a[2], a[3]); break;
 	case SYS_close: Log("nmsl"),c->GPRx = fs_close(a[1]); break;
 	case SYS_lseek: Log("nmsl"),c->GPRx = fs_lseek(a[1], a[2], a[3]); break;
-	case SYS_brk: Log("nmsl"),c->GPRx = 0;	break;
+	case SYS_brk: Log("%d %d %d %d", a[0], a[1], a[2], a[3]),c->GPRx = 0;	break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
