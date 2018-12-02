@@ -20,7 +20,7 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  Log("nmsl");
+  //Log("nmsl");
 	int key = read_key();
   if (key == _KEY_NONE) 
       snprintf(buf, len, "t %d\n", uptime());
