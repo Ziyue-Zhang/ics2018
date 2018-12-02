@@ -70,8 +70,9 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 	ssize_t n = len; 
 	if(fs_offset + len > fs_size)
 	    len = fs_size - fs_offset;
-	len = fd < 3 ? len : n;
-	file_table[fd].open_offset += len;
+	len = fd == 5 ? len : n;
+	if(fd != 5)
+		file_table[fd].open_offset += len;
 	if(file_table[fd].read)
 		return file_table[fd].read(buf, fs_offset, len);
 	else
@@ -88,8 +89,8 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 	size_t n = len;
    	if(fs_offset + len > fs_size)
 		n = fs_size - fs_offset;
-	len = (fd == 5) ? len : n;
-	if(fd != 5)
+	len = fd < 3 ? len : n;
+	if(fd >= 3)
 		file_table[fd].open_offset += len;		
 	if(file_table[fd].write)
 		return file_table[fd].write(buf, file_table[fd].open_offset, len);
