@@ -193,7 +193,69 @@ int sprintf(char *out, const char *fmt, ...) {
 
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  return 0;
+  assert(fmt);
+  va_list va;
+  int m = 0;
+  va_start(va, fmt);
+  while(*fmt != '\0')
+  { 
+	if (*fmt == '%') {
+		fmt++;
+		if (*fmt == 's') {
+			char *s = va_arg(va,char*);
+			while(*s != '\0')
+			{
+				*out = *s;
+				out++;
+				m++;
+				s++;
+				if(m == n - 1)
+				{
+					*out = '\0';
+					return strlen(fmt);
+				}
+			}
+		}
+		else if (*fmt == 'd') {
+			int result = va_arg(va, int);
+			char d[32];
+			int temp = result;
+			int i;
+			for(i = 0; temp != 0; i++)
+			{
+				d[i] = temp % 10 + '0';
+				temp /= 10;
+			}
+			i--;
+			while(i >= 0)
+			{
+				*out = d[i];
+				i--;
+				out++;
+				m++;
+				if(m == n - 1)
+				{
+					*out = '\0';
+					return strlen(fmt);
+				}
+			}
+		}
+	}
+	else {
+		*out = *fmt;
+		out++;
+		m++;
+		if(m == n - 1)
+		{
+			*out = '\0';
+			return strlen(fmt);
+		}
+	}
+	fmt++;
+  }
+  *out = '\0';
+  va_end(va);
+  return n;
 }
 
 #endif
