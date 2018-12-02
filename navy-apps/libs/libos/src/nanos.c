@@ -86,7 +86,7 @@ int _fstat(int fd, struct stat *buf) {
 }
 
 int _kill(int pid, int sig) {
-  _exit(-SYS_kill);
+  //_exit(-SYS_kill);
   return -1;
 }
 
