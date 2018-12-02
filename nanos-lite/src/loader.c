@@ -1,25 +1,24 @@
 #include "proc.h"
+#include "fs.h"
 #include <unistd.h>
 
 #define DEFAULT_ENTRY 0x4000000
 extern size_t ramdisk_read();
 extern size_t get_ramdisk_size();
-extern ssize_t fs_read();
-extern ssize_t fs_write();
-extern int fs_open();
-extern int fs_close();
-size_t fs_filesz();
+
+extern size_t fs_disk_offset();
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   //TODO();
   //ramdisk_read((void *)DEFAULT_ENTRY, 0, get_ramdisk_size());
   int fd = fs_open(filename, 0, 0);
   ssize_t fs_size = fs_filesz(fd);
+  int disk_offset = fs_disk_offset(fd);
   Log("filename:%s fd = %d", filename, fd);
-  fs_read(fd, (void *)DEFAULT_ENTRY, fs_size);
+  fs_read(fd, (void *)DEFAULT_ENTRY + disk_offset, fs_size);
     
   fs_close(fd);
-  return DEFAULT_ENTRY;
+  return DEFAULT_ENTRY + disk_offset;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {

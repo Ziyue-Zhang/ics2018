@@ -133,3 +133,8 @@ size_t fs_filesz(int fd)
 {
 	  return file_table[fd].size;
 }
+
+size_t fs_disk_offset(int fd) 
+{
+	  return file_table[fd].disk_offset;
+}
