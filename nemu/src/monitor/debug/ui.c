@@ -266,8 +266,8 @@ void ui_mainloop(int is_batch_mode) {
 		printf("True\n");
 	else
 		printf("False\n");*/
-	cmd_c(NULL);
-    return;
+	//cmd_c(NULL);
+    //return;
   }
 
   while (1) {
