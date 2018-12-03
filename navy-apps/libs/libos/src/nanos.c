@@ -87,7 +87,8 @@ int _fstat(int fd, struct stat *buf) {
 }
 
 int _kill(int pid, int sig) {
-  _exit(-SYS_kill);
+assert(0);  
+_exit(-SYS_kill);
   return -1;
 }
 void _fork() {
