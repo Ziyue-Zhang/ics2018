@@ -90,7 +90,10 @@ int _kill(int pid, int sig) {
   _exit(-SYS_kill);
   return -1;
 }
-
+void _fork() {
+}
+void _wait() {
+}
 pid_t _getpid() {
   _exit(-SYS_getpid);
   return 1;
