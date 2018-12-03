@@ -91,14 +91,6 @@ int _kill(int pid, int sig) {
   return -1;
 }
 
-int _fork() {
-	return 0;
-}
-
-int _wait() {
-	return 0;
-}
-
 pid_t _getpid() {
   _exit(-SYS_getpid);
   return 1;
