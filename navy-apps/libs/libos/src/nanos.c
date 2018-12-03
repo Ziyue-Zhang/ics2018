@@ -23,8 +23,6 @@ intptr_t _syscall_(int type, intptr_t a0, intptr_t a1, intptr_t a2){
 #endif
 
 void _exit(int status) {
-if(status==6)
-	while(1);
   _syscall_(SYS_exit, status, 0, 0);
   while (1);
 }
