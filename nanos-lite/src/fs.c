@@ -67,7 +67,7 @@ int fs_open(const char *pathname, int flags, int mode)
 	return -1;
 }
 
-ssize_t fs_read(int fd, void *buf, size_t len)
+/*ssize_t fs_read(int fd, void *buf, size_t len)
 {
 	//Log("%d", fd);
 	ssize_t fs_size = fs_filesz(fd);
@@ -82,7 +82,7 @@ ssize_t fs_read(int fd, void *buf, size_t len)
 		ramdisk_read(buf, fs_offset + file_table[fd].disk_offset, len);
 		return len;
 	}
-}
+}*/
 
 ssize_t fs_write(int fd, const void *buf, size_t len)
 {			
@@ -103,6 +103,30 @@ ssize_t fs_write(int fd, const void *buf, size_t len)
 		//file_table[fd].open_offset += len;
 		return len;
 	}
+}
+ssize_t fs_read(int fd, void* buf, size_t len){
+	//assert(file_table[fd].open_offset+len <= file_table[fd].size);
+	//printf("read address:%d\n",file_table[fd].disk_offset+file_table[fd].open_offset);
+	//printf("read value: %s\n",(char*)buf);
+	//printf("fs_read returns %d\n",ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,len));
+	 //actually read num of byte
+	if(file_table[fd].read == NULL){
+		size_t ret = len;
+		if(file_table[fd].open_offset + len > file_table[fd].size)
+		ret = file_table[fd].size - file_table[fd].open_offset;
+		ramdisk_read(buf,file_table[fd].disk_offset+file_table[fd].open_offset,ret);
+		file_table[fd].open_offset += ret;
+		return ret;
+	} 
+		
+
+	else{
+		file_table[fd].open_offset += len;
+		return file_table[fd].read(buf,file_table[fd].disk_offset+file_table[fd].open_offset-len,len);
+		
+		//return len;
+	} 
+	
 }
 
 off_t fs_lseek(int fd, off_t offset, int whence) 
