@@ -209,7 +209,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
 				out++;
 				m++;
 				s++;
-				if(m == n - 1)
+				if(m == n)
 				{
 					*out = '\0';
 					return strlen(fmt);
@@ -233,7 +233,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
 				i--;
 				out++;
 				m++;
-				if(m == n - 1)
+				if(m == n)
 				{
 					*out = '\0';
 					return strlen(fmt);
@@ -245,7 +245,7 @@ int snprintf(char *out, size_t n, const char *fmt, ...) {
 		*out = *fmt;
 		out++;
 		m++;
-		if(m == n - 1)
+		if(m == n)
 		{
 			*out = '\0';
 			return strlen(fmt);
