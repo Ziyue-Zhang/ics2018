@@ -5,7 +5,6 @@
 #include "util/c_op.h"
 #include "cpu/relop.h"
 #include "cpu/rtl-wrapper.h"
-#include "cpu/exec.h"
 
 extern rtlreg_t t0, t1, t2, t3, at;
 
@@ -151,49 +150,35 @@ static inline void rtl_sr(int r, const rtlreg_t* src1, int width) {
 
 static inline void rtl_not(rtlreg_t *dest, const rtlreg_t* src1) {
   // dest <- ~src1
+  //TODO();
   *dest = ~(*src1);
 }
 
 static inline void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- signext(src1[(width * 8 - 1) .. 0])
-  //pr(src1);
-  bool msb = (*src1 >> (width*8 - 1)) & 1;
-  //pr(&msb);
-  if(!msb) *dest = *src1;
-  else{
-    //pr(&width);
-  	switch(width){
-  		case 4:*dest = *src1;break;
-  		case 2:*dest = (*src1 | 0xffff0000);break;
-  		case 1:*dest = (*src1 | 0xffffff00);break;
-  		default: assert(0);
-  	}
-  }
-  //pr(dest);
+  //TODO();
+  if(width == 1)
+	  *dest = (int32_t) (int8_t) *src1;
+  else if(width ==2)
+	  *dest = (int32_t) (int16_t) *src1;
+  else
+	  *dest = (int32_t) *src1;
 }
 
 static inline void rtl_push(const rtlreg_t* src1) {
   // esp <- esp - 4
   // M[esp] <- src1
-  //printf("In rtl_push(), before sub, esp = %x\n",reg_l(R_ESP));
-  rtl_subi(&reg_l(R_ESP),&reg_l(R_ESP),4);
-  //printf("In rtl_push(), after sub, esp = %x\n",reg_l(R_ESP));
-  //pr(src1);
-  rtl_sm(&reg_l(R_ESP),src1,4);
-  //printf("In rtl_push(), finally, esp = %x\n",reg_l(R_ESP));
-  //printf("In rtl_push(), after move, M[esp] = %x\n",vaddr_read(reg_l(R_ESP),4));
-  return;
-  
+  //TODO();
+  cpu.esp -= 4;
+  vaddr_write(cpu.esp, *src1, 4);
 }
 
 static inline void rtl_pop(rtlreg_t* dest) {
   // dest <- M[esp]
   // esp <- esp + 4
-  //pr(&reg_l(R_ESP));
-  rtl_lm(dest,&reg_l(R_ESP),4);
-  //pr(dest);
-  rtl_addi(&reg_l(R_ESP),&reg_l(R_ESP),4);
-  return;
+  //TODO();
+  *dest = vaddr_read(cpu.esp, 4);
+  cpu.esp += 4;
 }
 
 static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
@@ -204,12 +189,13 @@ static inline void rtl_setrelopi(uint32_t relop, rtlreg_t *dest,
 
 static inline void rtl_msb(rtlreg_t* dest, const rtlreg_t* src1, int width) {
   // dest <- src1[width * 8 - 1]
-  *dest = (*src1 >> (width*8 - 1)) & 1;
+  //TODO();
+  *dest = ((*src1) >> (8 * width - 1)) & 1;
 }
 
 #define make_rtl_setget_eflags(f) \
   static inline void concat(rtl_set_, f) (const rtlreg_t* src) { \
-    cpu.eflags.f = (*src ? 1 : 0); \
+    cpu.eflags.f = *src; \
   } \
   static inline void concat(rtl_get_, f) (rtlreg_t* dest) { \
     *dest = cpu.eflags.f; \
@@ -221,16 +207,24 @@ make_rtl_setget_eflags(ZF)
 make_rtl_setget_eflags(SF)
 
 static inline void rtl_update_ZF(const rtlreg_t* result, int width) {
-	//printf("ZF = %d\n",cpu.eflags.ZF);
   // eflags.ZF <- is_zero(result[width * 8 - 1 .. 0])
-  if(width == 4) cpu.eflags.ZF = (*result == 0);
-  else cpu.eflags.ZF = ( (*result & ((1 << width*8) - 1)) == 0);
-	//printf("ZF = %d\n",cpu.eflags.ZF);
+  //TODO();
+  uint32_t zf = 0;
+  if (width == 1)
+	  zf = (0x000000ff & *result) || 0;
+  else if (width == 2)
+	  zf = (0x0000ffff & *result) || 0;
+  else if (width == 4)
+	  zf = (0xffffffff & *result) || 0;
+  else
+	  assert(0);
+  cpu.eflags.ZF = ((zf == 1) ? 0 : 1);
 }
 
 static inline void rtl_update_SF(const rtlreg_t* result, int width) {
   // eflags.SF <- is_sign(result[width * 8 - 1 .. 0])
-  cpu.eflags.SF = (*result >> (width*8 - 1) & 1 ? 1 : 0);
+  //TODO();
+  cpu.eflags.SF = (*result >> (8*width - 1)) & 1;
 }
 
 static inline void rtl_update_ZFSF(const rtlreg_t* result, int width) {
