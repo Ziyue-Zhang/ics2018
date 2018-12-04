@@ -15,40 +15,40 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 typedef struct {
-	union {
-	    union {
-   		 uint32_t _32;
-   		 uint16_t _16;
-   		 uint8_t _8[2];
-	      } gpr[8];
+  union{
+	  union {
+		 uint32_t _32;
+		 uint16_t _16;
+		 uint8_t _8[2];
+	  } gpr[8];
 
-  /* Do NOT change the order of the GPRs' definitions. */
+	 /* Do NOT change the order of the GPRs' definitions. */
 
-  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
-   * in PA2 able to directly access these registers.
-   */
- 	 struct {
-		rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-	  		}; 
-	};
-	vaddr_t eip;
-	union{
-		uint32_t init;
-		struct
-		{
-			uint32_t CF:1;	//1 bite
-			uint32_t ZF:1;
-			uint32_t SF:1;
-			uint32_t IF:1;
-			uint32_t OF:1;
-		};
-	}eflags;
-	unsigned int cs;
-    struct 
-	{
-	   uint16_t limit;
-	   uint32_t base;
-	} idtr;
+	  /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions
+	   * in PA2 able to directly access these registers.
+	 */
+	 struct{
+		 rtlreg_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	 };
+  };
+  rtlreg_t eip,CS;
+  struct {
+  	unsigned CF:1;
+  	unsigned dummy:5;
+  	unsigned ZF:1;
+  	unsigned SF:1;
+  	unsigned dummy2:1;
+  	unsigned IF:1;
+  	unsigned dummy3:1;
+  	unsigned OF:1;
+  	unsigned dummy4:20;
+  	rtlreg_t val;
+  } eflags;
+  
+  struct {
+  	unsigned limit:16;
+  	unsigned base:32;
+  } idtr;
 } CPU_state;
 
 extern CPU_state cpu;

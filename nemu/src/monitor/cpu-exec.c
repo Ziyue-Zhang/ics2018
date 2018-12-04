@@ -1,14 +1,13 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
-#include "monitor/expr.h"
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
  * You can modify this value as you want.
  */
 #define MAX_INSTR_TO_PRINT 10
-extern WP* gethead();
+
 int nemu_state = NEMU_STOP;
 
 void exec_wrapper(bool);
@@ -32,50 +31,16 @@ void cpu_exec(uint64_t n) {
   nemu_state = NEMU_RUNNING;
 
   bool print_flag = n < MAX_INSTR_TO_PRINT;
-  //bool print_flag = 1;
+
   for (; n > 0; n --) {
     /* Execute one instruction, including instruction fetch,
      * instruction decode, and the actual execution. */
-    //printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\t0x%08x\n", cpu.eip, cpu.eax,cpu.ebx,cpu.ecx,cpu.edx,cpu.esi);
     exec_wrapper(print_flag);
     nr_guest_instr_add(1);
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-	WP *head = gethead();
-	if (head)
-	{
-		WP *p = head;
-		bool have_stop = false;
-		while(p)
-		{
-			bool flag = true;
-			uint32_t new_result = expr(p->expr,&flag);
-			if(!flag)
-				assert(0);
-			else
-			{
-				if(p->result != new_result && !p->flag)
-				{
-					printf("Watchpoint %d expr: %s\n%s(old value): %d\n%s(new value): %d\n", p->NO, p->expr,p->expr,p->result,p->expr,new_result);
-					p->result = new_result;
-					have_stop = true;
-				}
-				else if(p->result != new_result && p->flag)
-				{
-					printf("Stop at breakpoint\n");
-					have_stop = true;
-				}
-			}
-			p = p->next;
-		}
-		if (have_stop)
-		{
-			//nemu_state = NEMU_STOP;
-			//return;
-			break;
-		}
-	}
+	if(check()) nemu_state = NEMU_STOP;
 #endif
 
 #ifdef HAS_IOE
@@ -91,8 +56,12 @@ void cpu_exec(uint64_t n) {
         return;
       }
       else if (nemu_state == NEMU_ABORT) {
+      printf("total instructions number: %d\n",(int32_t)g_nr_guest_instr);
         printflog("\33[1;31mnemu: ABORT\33[0m at eip = 0x%08x\n\n", cpu.eip);
         return;
+      }
+      else if(nemu_state == NEMU_STOP){
+      	return;
       }
     }
   }
