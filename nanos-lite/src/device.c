@@ -20,7 +20,6 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  //Log("nmsl");
 	int key = read_key();
   if (key == _KEY_NONE) 
       snprintf(buf, len, "t %d\n", uptime());
@@ -34,18 +33,16 @@ size_t events_read(void *buf, size_t offset, size_t len) {
       key &= 0x7fff;
 	  snprintf(buf, len, "ku %s\n", keyname[key]);
   }
-  //return strlen(buf);
-  return (strlen(buf) <= len ? strlen(buf) : len);
+  return strlen(buf);
 }
 
 static char dispinfo[128] __attribute__((used));
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  Log("%d %d",offset,len);
+  //Log("%d %d",offset,len);
   memcpy(buf, dispinfo + offset, len);
 //memcpy(buf, dispinfo, len);
-  //return len;
-  return strlen(buf);
+  return len;
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
