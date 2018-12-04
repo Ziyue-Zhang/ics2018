@@ -26,12 +26,16 @@ size_t events_read(void *buf, size_t offset, size_t len) {
       snprintf(buf, len, "t %d\n", uptime());
   else if (key & 0x8000) 
   {
-      key ^= 0x8000;
+      key &= 0x7fff;
       snprintf(buf, len, "kd %s\n", keyname[key]);
   }
   else 
-      snprintf(buf, len, "ku %s\n", keyname[key]);
-  return strlen(buf);
+  {
+      key &= 0x7fff;
+	  snprintf(buf, len, "ku %s\n", keyname[key]);
+  }
+  //return strlen(buf);
+  return (strlen(buf) <= len ? strlen(buf) : len);
 }
 
 static char dispinfo[128] __attribute__((used));
