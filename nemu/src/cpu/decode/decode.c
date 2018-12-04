@@ -18,7 +18,9 @@ void decoding_set_jmp(bool is_jmp) {
 static inline make_DopHelper(I) {
   /* eip here is pointing to the immediate */
   op->type = OP_TYPE_IMM;
+  //printf("eip = %x\n",*eip);
   op->imm = instr_fetch(eip, op->width);
+    //printf("enter DopHelper(I), op->imm = %d\n",op->imm);
   rtl_li(&op->val, op->imm);
 
 #ifdef DEBUG
@@ -42,17 +44,11 @@ static inline make_DopHelper(SI) {
    *
    op->simm = ???
    */
-  if(op->width == 1)
-  {
-	  int8_t simm = (int8_t)instr_fetch(eip,1);
-	  op->simm = (int32_t)simm;
-  }
-  else
-  {
-	  int32_t simm = (int32_t)instr_fetch(eip,4);
-	  op->simm = (int32_t)simm;
-  }
-
+  op->simm = (int)instr_fetch(eip,op->width);
+  //pr(&op->simm);
+  if(op->width == 1) op->simm = (op->simm & 0x80 ? op->simm | 0xffffff00 : op->simm);
+   // pr(&op->simm);
+  //printf("In make_DopHelper(SI),op->width = %d,op->simm = %d\n",op->width,op->simm);
   rtl_li(&op->val, op->simm);
 
 #ifdef DEBUG
@@ -141,10 +137,6 @@ make_DHelper(mov_E2G) {
   decode_op_rm(eip, id_src, true, id_dest, false);
 }
 
-make_DHelper(mov_E2G_1) {
-  decode_op_rm(eip, id_dest, true, id_src, false);
-}
-
 make_DHelper(lea_M2G) {
   decode_op_rm(eip, id_src, false, id_dest, false);
 }
@@ -193,6 +185,7 @@ make_DHelper(mov_I2r) {
 
 /* used by unary operations */
 make_DHelper(I) {
+	//printf("Enter DHelper_I\n");
   decode_op_I(eip, id_dest, true);
 }
 
@@ -219,9 +212,13 @@ make_DHelper(test_I) {
 
 make_DHelper(SI2E) {
   assert(id_dest->width == 2 || id_dest->width == 4);
+   // printf("eip1 = %x ",*eip);
   decode_op_rm(eip, id_dest, true, NULL, false);
+
   id_src->width = 1;
+   //printf("eip2 = %x\n ",*eip);
   decode_op_SI(eip, id_src, true);
+    //: printf("eip3 = %x\n ",*eip);
   if (id_dest->width == 2) {
     id_src->val &= 0xffff;
   }
@@ -296,6 +293,8 @@ make_DHelper(a2O) {
 make_DHelper(J) {
   decode_op_SI(eip, id_dest, false);
   // the target address can be computed in the decode stage
+  //pr(&id_dest->simm);
+  //pr(eip);
   decoding.jmp_eip = id_dest->simm + *eip;
 }
 
@@ -335,6 +334,10 @@ make_DHelper(out_a2dx) {
 #ifdef DEBUG
   sprintf(id_dest->str, "(%%dx)");
 #endif
+}
+
+make_DHelper(empty){
+	return;
 }
 
 void operand_write(Operand *op, rtlreg_t* src) {
