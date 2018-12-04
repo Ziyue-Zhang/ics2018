@@ -4,9 +4,9 @@
 #include "common.h"
 #include <stdio.h>
 #include <assert.h>
-#ifdef DEBUG
-extern FILE* log_fp;
 
+#ifdef DEBUG
+extern FILE* log_fp; 
 #	define Log_write(format, ...) \
   do { \
     if (log_fp != NULL) { \
