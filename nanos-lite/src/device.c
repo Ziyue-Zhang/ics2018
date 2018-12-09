@@ -23,15 +23,18 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 	int key = read_key();
   if (key == _KEY_NONE) 
       snprintf(buf, len, "t %d\n", uptime());
+//sprintf(buf, "t %d\n", uptime());
   else if (key & 0x8000) 
   {
       key &= 0x7fff;
       snprintf(buf, len, "kd %s\n", keyname[key]);
+//sprintf(buf, "kd %s\n", keyname[key]);
   }
   else 
   {
       key &= 0x7fff;
 	  snprintf(buf, len, "ku %s\n", keyname[key]);
+// sprintf(buf, "ku %s\n", keyname[key]);
   }
   return strlen(buf);
 }
